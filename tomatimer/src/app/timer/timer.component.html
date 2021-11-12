@@ -1,7 +1,19 @@
 <div class="container">
-    <div class="row, p-5, mb-5, text-center"><h1 class="display-1">Timer</h1></div>
-    <div class="row" style="background-color: aqua;"><h2 class="time">Test:</h2></div>
-    <div class="row" style="background-color: aquamarine;">MAN</div>
+  <div class="row, p-5, mb-5, text-center">
+    <h1 class="display-1">Timer</h1>
+  </div>
+  <div class="row" style="background-color: aqua">
+    <div class="col"></div>
+    <div class="col-md-auto">
+      <h3 class="time" style="text-align: right">{{ obj.stringMin }}</h3>
+    </div>
+    <div class="col-sm-auto gx-5">
+      <h3 class="time">:</h3>
+    </div>
+    <div class="col-md-auto">
+      <h3 class="time">{{ obj.stringSec }}</h3>
+    </div>
+    <div class="col"></div>
+  </div>
+  <div class="row" style="background-color: aquamarine">MAN</div>
 </div>
-
-<h1></h1>

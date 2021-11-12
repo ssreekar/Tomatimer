@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 
 export interface TimerInfo {
-  foo: Number;
-  bar: Number;
+  minutes: number;
+  seconds: number;
+  stringMin: string;
+  stringSec: string;
 };
 
 
@@ -15,8 +17,11 @@ export interface TimerInfo {
 export class AppComponent {
 
   obj:TimerInfo = {
-    foo: 10,
-    bar: 20
+    minutes: 25,
+    seconds: 0,
+    stringMin: "25",
+    stringSec: "00"
   }
+
   title = 'tomatimer';
 }
