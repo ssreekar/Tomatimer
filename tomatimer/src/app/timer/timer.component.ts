@@ -22,6 +22,15 @@ export class TimerComponent implements OnInit {
     this.moving = true;
   }
 
+  ngOnInit(): void {
+    this.setMin(this.startMin);
+    this.setSec(this.startSec);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
   setSec(seconds:number) {
     this.obj.seconds = seconds;
     this.obj.stringSec = formatNumber(this.obj.seconds, this.locale, '2.0');
@@ -46,12 +55,6 @@ export class TimerComponent implements OnInit {
     this.moving = false;
   }
 
-  ngOnInit(): void {
-    this.setMin(this.startMin);
-    this.setSec(this.startSec);
-  }
-
-
   //Future Updates: Make it so timer is saved to milliseconds so if we press pause at the last second
   //when play is pressed it is updated accordingly. 
   secPass() {
@@ -70,10 +73,6 @@ export class TimerComponent implements OnInit {
     }
     this.setSec(this.obj.seconds);
     this.setMin(this.obj.minutes);
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 
 }

@@ -16,12 +16,7 @@ export interface TimerInfo {
 
 export class AppComponent {
 
-  obj:TimerInfo = {
-    minutes: 25,
-    seconds: 0,
-    stringMin: "25",
-    stringSec: "00"
-  }
-
-  title = 'tomatimer';
+  startSec: number = 0
+  startMin: number = 25
+  title:string = 'tomatimer';
 }
