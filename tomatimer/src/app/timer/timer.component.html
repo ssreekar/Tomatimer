@@ -1,19 +1,50 @@
-<div class="container">
-  <div class="row, p-5, mb-5, text-center">
+<div class="container-fluid">
+  <div class="row my-5 text-center">
     <h1 class="display-1">Timer</h1>
   </div>
-  <div class="row" style="background-color: aqua">
+  <div class="row my-5" style="background-color: aqua">
     <div class="col"></div>
-    <div class="col-md-auto">
+    <div class="col-md">
       <h3 class="time" style="text-align: right">{{ obj.stringMin }}</h3>
     </div>
-    <div class="col-sm-auto gx-5">
+    <div class="col-sm-auto gx-4">
       <h3 class="time">:</h3>
     </div>
-    <div class="col-md-auto">
-      <h3 class="time">{{ obj.stringSec }}</h3>
+    <div class="col-md">
+      <h3 class="time" style="text-align: left">{{ obj.stringSec }}</h3>
     </div>
     <div class="col"></div>
+    <div class="row"></div>
   </div>
-  <div class="row" style="background-color: aquamarine">MAN</div>
+</div>
+<div class="container-fluid" style="height: 100px; position: relative">
+  <div class="row">
+    <div class="col-md">
+      <button
+        (click)="onStart()"
+        type="button"
+        class="btn btn-success btn-lg btn-center"
+      >
+        Start
+      </button>
+    </div>
+    <div class="col-md">
+      <button
+        (click)="onReset()"
+        type="button"
+        class="btn btn-secondary btn-lg btn-center"
+      >
+        Reset
+      </button>
+    </div>
+    <div class="col-md">
+      <button
+        (click)="onStop()"
+        type="button"
+        class="btn btn-danger btn-lg btn-center"
+      >
+        Stop
+      </button>
+    </div>
+  </div>
 </div>

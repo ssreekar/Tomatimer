@@ -2,3 +2,16 @@
   font-size: 100px;
   text-align: center;
 }
+
+:app-timer {
+  display: block;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.btn-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
