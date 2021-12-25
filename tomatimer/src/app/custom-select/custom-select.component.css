@@ -1,0 +1,25 @@
+.img-button {
+    transition: all 0.2s ease;
+    max-width: 60%;
+    height: auto;
+}
+
+.img-button:hover {
+    transform: scale(1.1);
+}
+
+.submit-button {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.input-field {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    zoom: 4;
+    caret-color: transparent;
+    text-align: center;
+}

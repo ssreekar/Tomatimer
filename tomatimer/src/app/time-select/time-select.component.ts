@@ -23,7 +23,7 @@ export class TimeSelectComponent implements OnInit {
   }
 
   customClick() {
-    console.log("CustomClick");
+    this.messageEvent.emit([-1, -1]);
   }
 
 }

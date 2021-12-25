@@ -1,0 +1,38 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md">
+            <h2 class="display-2 text-center my-4">Custom Time</h2>
+        </div>
+    </div>
+    <div class="row my-5">
+        <div class="col-md">
+            <h4 class="display-4 text-center">Work Time</h4>
+            <br />
+            <input
+                class="form-control input-field"
+                (keypress)="numberOnly($event)"
+                (input)="updateWork($event)"
+            />
+        </div>
+        <div class="col-md">
+            <h4 class="display-4 text-center">Break Time</h4>
+            <br />
+            <input
+                class="form-control input-field"
+                (keypress)="numberOnly($event)"
+                (input)="updateBreak($event)"
+            />
+        </div>
+    </div>
+    <div class="row my-5">
+        <div class="col-md"></div>
+        <div class="col-md">
+            <img
+                class="img-button submit-button"
+                (click)="onSubmit()"
+                src="assets/submit.png"
+            />
+        </div>
+        <div class="col-md"></div>
+    </div>
+</div>
