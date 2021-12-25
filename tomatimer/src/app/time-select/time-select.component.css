@@ -1,4 +1,5 @@
 .img-button {
+    transition: all 0.2s ease;
     max-width: 70%;
     height: auto;
 }
@@ -9,4 +10,8 @@
     justify-content: center;
     align-items: center;
     height: 500px;
+}
+
+.img-button:hover {
+    transform: scale(1.1);
 }

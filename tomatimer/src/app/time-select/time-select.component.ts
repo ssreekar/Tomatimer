@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter} from '@angular/core';
 
 @Component({
   selector: 'app-time-select',
@@ -7,9 +7,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TimeSelectComponent implements OnInit {
 
+  @Output() messageEvent = new EventEmitter<number[]>();
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  standardClick() {
+    this.messageEvent.emit([25, 5]);
+  }
+
+  extraClick() {
+    this.messageEvent.emit([50, 10]);
+  }
+
+  customClick() {
+    console.log("CustomClick");
   }
 
 }
