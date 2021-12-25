@@ -1,0 +1,12 @@
+.img-button {
+    max-width: 70%;
+    height: auto;
+}
+
+.custom-center {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    height: 500px;
+}
