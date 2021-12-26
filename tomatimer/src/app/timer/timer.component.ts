@@ -2,16 +2,21 @@ import { Component, Input, OnInit, Inject, LOCALE_ID } from '@angular/core';
 import { TimerInfo } from '../app.component';
 import { interval, Subscription } from 'rxjs';
 import { formatNumber } from '@angular/common';
+import {trigger, state, style, animate, transition} from '@angular/animations'
 
 @Component({
   selector: 'app-timer',
   templateUrl: './timer.component.html',
-  styleUrls: ['./timer.component.css']
+  styleUrls: ['./timer.component.css'],
+  animations: [
+    
+  ]
 })
 
 export class TimerComponent implements OnInit {
   @Input() startMin: number = 0;
   @Input() startSec: number = 0;
+  work: Boolean = true;
   obj:TimerInfo = {minutes: this.startMin, seconds:this.startSec, stringMin: "00", stringSec: "00"};
   subscription: Subscription;
   moving: boolean;
@@ -53,6 +58,10 @@ export class TimerComponent implements OnInit {
 
   onStop() {
     this.moving = false;
+  }
+
+  onSkipToBreak() {
+    //Code where Break is skipped to
   }
 
   //Future Updates: Make it so timer is saved to milliseconds so if we press pause at the last second

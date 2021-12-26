@@ -1,8 +1,8 @@
 <div class="container-fluid">
-    <div class="row my-5 text-center">
-        <h1 class="display-1">Timer</h1>
+    <div class="row text-center py-1" style="background-color: #eeeeeeff">
+        <h1 class="display-1" style="color: #222831ff">Timer</h1>
     </div>
-    <div class="row my-5" style="background-color: aqua">
+    <div class="row py-5" style="background-color: #393e46ff">
         <div class="col"></div>
         <div class="col-md">
             <h3 class="time" style="text-align: right">{{ obj.stringMin }}</h3>
@@ -17,34 +17,40 @@
         <div class="row"></div>
     </div>
 </div>
-<div class="container-fluid" style="height: 100px; position: relative">
+<div
+    class="container-fluid"
+    style="height: 100%; position: relative; background-color: #222831ff"
+>
+    <div class="row py-5">
+        <div class="col-md">
+            <img
+                class="img-button btn-center"
+                (click)="onStart()"
+                src="assets/Start.png"
+            />
+        </div>
+        <div class="col-md">
+            <img
+                class="img-button btn-center"
+                (click)="onReset()"
+                src="assets/Reset.png"
+            />
+        </div>
+        <div class="col-md">
+            <img
+                class="img-button btn-center"
+                (click)="onStop()"
+                src="assets/Stop.png"
+            />
+        </div>
+    </div>
     <div class="row">
         <div class="col-md">
-            <button
-                (click)="onStart()"
-                type="button"
-                class="btn btn-success btn-lg btn-center"
-            >
-                Start
-            </button>
-        </div>
-        <div class="col-md">
-            <button
-                (click)="onReset()"
-                type="button"
-                class="btn btn-secondary btn-lg btn-center"
-            >
-                Reset
-            </button>
-        </div>
-        <div class="col-md">
-            <button
-                (click)="onStop()"
-                type="button"
-                class="btn btn-danger btn-lg btn-center"
-            >
-                Stop
-            </button>
+            <img
+                class="img-button btn-center smaller"
+                (click)="onSkipToBreak()"
+                src="assets/SkipToBreak.png"
+            />
         </div>
     </div>
 </div>

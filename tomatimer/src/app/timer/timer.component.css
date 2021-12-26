@@ -1,17 +1,33 @@
 .time {
-  font-size: 100px;
-  text-align: center;
+    font-size: 100px;
+    color: #eeeeeeff;
+    text-align: center;
 }
 
 :app-timer {
-  display: block;
-  left: 0;
-  height: 100%;
-  width: 100%;
+    display: block;
+    left: 0;
+    height: 100%;
+    width: 100%;
 }
 
 .btn-center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.smaller {
+    height: 50%;
+    width: 30%;
+}
+
+.img-button {
+    transition: all 0.2s ease;
+    max-width: 50%;
+    height: auto;
+}
+
+.img-button:hover {
+    transform: scale(1.1);
 }
