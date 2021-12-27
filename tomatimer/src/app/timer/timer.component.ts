@@ -1,31 +1,68 @@
-import { Component, Input, OnInit, Inject, LOCALE_ID } from '@angular/core';
+import { Component, Input, OnInit, Inject, LOCALE_ID, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { TimerInfo } from '../app.component';
 import { interval, Subscription } from 'rxjs';
 import { formatNumber } from '@angular/common';
-import {trigger, state, style, animate, transition} from '@angular/animations'
+import {trigger, state, style, animate, transition, keyframes} from '@angular/animations'
 
 @Component({
   selector: 'app-timer',
   templateUrl: './timer.component.html',
   styleUrls: ['./timer.component.css'],
   animations: [
-    
+    trigger('workBreak', [
+      state('work', style({
+      })),
+      state('break', style({
+      })),
+      transition ('work => break', [
+        animate('1.25s ease-in-out', keyframes([
+          style({
+            transform: 'translateY(-224px)',
+            offset: 0.35
+          }),
+          style({
+            transform: 'translateY(-224px)',
+            offset: 0.65
+          }),
+          style ({
+            offset: 1
+          })
+        ]))
+      ]),
+      transition('break => work', [
+        animate('1.25s ease-in-out', keyframes([
+          style({
+            transform: 'translateY(-224px)',
+            offset: 0.5
+          }),
+          style({
+            transform: 'translateY(-224px)',
+            offset: 0.65
+          }),
+          style ({
+            offset: 1
+          })
+        ]))
+      ])
+    ])
   ]
 })
 
 export class TimerComponent implements OnInit {
   @Input() startMin: number = 0;
   @Input() startSec: number = 0;
-  work: Boolean = true;
+  isWork: Boolean = true;
   obj:TimerInfo = {minutes: this.startMin, seconds:this.startSec, stringMin: "00", stringSec: "00"};
   subscription: Subscription;
   moving: boolean;
+  imgSource: string = "Break";
 
   constructor(@Inject(LOCALE_ID) public locale: string,) {
     const source = interval(1000);
     this.subscription = source.subscribe(call => this.secPass());
     this.moving = true;
   }
+
 
   ngOnInit(): void {
     this.setMin(this.startMin);
@@ -54,6 +91,7 @@ export class TimerComponent implements OnInit {
     this.moving = false;
     this.setMin(this.startMin);
     this.setSec(this.startSec);
+    this.isWork = !this.isWork;
   }
 
   onStop() {

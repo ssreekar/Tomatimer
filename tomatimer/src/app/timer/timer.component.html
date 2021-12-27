@@ -3,23 +3,19 @@
         <h1 class="display-1" style="color: #222831ff">Timer</h1>
     </div>
     <div class="row py-5" style="background-color: #393e46ff">
-        <div class="col"></div>
-        <div class="col-md">
-            <h3 class="time" style="text-align: right">{{ obj.stringMin }}</h3>
+        <div class="col-md gx-4">
+            <h3 style="text-align: center" class="time text-center">
+                {{ obj.stringMin }} : {{ obj.stringSec }}
+            </h3>
         </div>
-        <div class="col-sm-auto gx-4">
-            <h3 class="time">:</h3>
-        </div>
-        <div class="col-md">
-            <h3 class="time" style="text-align: left">{{ obj.stringSec }}</h3>
-        </div>
-        <div class="col"></div>
-        <div class="row"></div>
     </div>
 </div>
 <div
     class="container-fluid"
     style="height: 100%; position: relative; background-color: #222831ff"
+    [@workBreak]="{
+        value: isWork ? 'work' : 'break'
+    }"
 >
     <div class="row py-5">
         <div class="col-md">
@@ -49,7 +45,7 @@
             <img
                 class="img-button btn-center smaller"
                 (click)="onSkipToBreak()"
-                src="assets/SkipToBreak.png"
+                src="assets/SkipTo{{ imgSource }}.png"
             />
         </div>
     </div>
