@@ -12,7 +12,7 @@
 </div>
 <div
     class="container-fluid"
-    style="height: 100%; position: relative; background-color: #222831ff"
+    style="height: 100%; background-color: #222831ff"
     [@workBreak]="{
         value: isWork ? 'work' : 'break'
     }"
@@ -40,12 +40,24 @@
             />
         </div>
     </div>
-    <div class="row">
-        <div class="col-md">
+    <div class="row" style="height: 132px">
+        <div class="col-md-fluid">
             <img
-                class="img-button btn-center smaller"
+                class="btn-center skip-img test"
                 (click)="onSkipToBreak()"
-                src="assets/SkipTo{{ imgSource }}.png"
+                src="assets/SkipToBreak.png"
+                [@workBreakButton]="{
+                    value: isWork ? 'workButton' : 'breakButton'
+                }"
+            />
+            <img
+                class="btn-center skip-img test"
+                (click)="onSkipToBreak()"
+                src="assets/SkipToWork.png"
+                style="position: absolute; width: 453px; height: 132px"
+                [@workBreakButton]="{
+                    value: isWork ? 'workButton' : 'breakButton'
+                }"
             />
         </div>
     </div>

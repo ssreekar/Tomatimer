@@ -31,3 +31,19 @@
 .img-button:hover {
     transform: scale(1.1);
 }
+
+.skip-img {
+    position: absolute;
+    width: 453px;
+    height: 132px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.skip-img:hover {
+    transform: scale(1.1);
+}

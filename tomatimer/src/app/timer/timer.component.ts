@@ -2,7 +2,7 @@ import { Component, Input, OnInit, Inject, LOCALE_ID, ViewChild, ElementRef, Aft
 import { TimerInfo } from '../app.component';
 import { interval, Subscription } from 'rxjs';
 import { formatNumber } from '@angular/common';
-import {trigger, state, style, animate, transition, keyframes} from '@angular/animations'
+import {trigger, state, style, animate, transition, keyframes, query, group} from '@angular/animations'
 
 @Component({
   selector: 'app-timer',
@@ -15,7 +15,7 @@ import {trigger, state, style, animate, transition, keyframes} from '@angular/an
       state('break', style({
       })),
       transition ('work => break', [
-        animate('1.25s ease-in-out', keyframes([
+        group([animate('1.25s ease-in-out', keyframes([
           style({
             transform: 'translateY(-224px)',
             offset: 0.35
@@ -27,8 +27,24 @@ import {trigger, state, style, animate, transition, keyframes} from '@angular/an
           style ({
             offset: 1
           })
-        ]))
-      ]),
+        ])),
+        query('.test', [
+          animate('1.25s ease-in-out',keyframes([
+            style({
+              opacity: 0,
+              offset: 0.35
+            }),
+            style({
+              opacity: 0,
+              offset: 0.65
+            }),
+            style ({
+              opacity: 1,
+              offset: 1
+            })
+          ]))
+        ])
+      ])]),
       transition('break => work', [
         animate('1.25s ease-in-out', keyframes([
           style({
@@ -44,7 +60,7 @@ import {trigger, state, style, animate, transition, keyframes} from '@angular/an
           })
         ]))
       ])
-    ])
+    ]),
   ]
 })
 
