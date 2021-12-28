@@ -47,18 +47,13 @@
                 class="btn-center skip-img"
                 (click)="onSkipToBreak()"
                 src="assets/SkipToBreak.png"
-                [@toBreakButton]="{
-                    value: buttonWork ? 'workButton' : 'breakButton'
-                }"
+                [ngStyle]="{ opacity: isWork ? '1' : '0' }"
             />
             <img
                 class="btn-center skip-img"
                 (click)="onSkipToBreak()"
                 src="assets/SkipToWork.png"
-                style="position: absolute; width: 453px; height: 132px"
-                [@toWorkButton]="{
-                    value: buttonWork ? 'workButton' : 'breakButton'
-                }"
+                [ngStyle]="{ opacity: isWork ? '0' : '1' }"
             />
         </div>
     </div>

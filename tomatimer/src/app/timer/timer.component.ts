@@ -9,28 +9,6 @@ import {trigger, state, style, animate, transition, keyframes, query, group} fro
   templateUrl: './timer.component.html',
   styleUrls: ['./timer.component.css'],
   animations: [
-    trigger('toBreakButton', [
-      state('workButton', style({
-        opacity: 1
-      })),
-      state('breakButton', style({
-        opacity: 0
-      })),
-      transition('workButton <=> breakButton', [
-        animate('0.25s')
-      ])
-    ]),
-    trigger('toWorkButton', [
-      state('workButton', style({
-        opacity: 0
-      })),
-      state('breakButton', style({
-        opacity: 1
-      })),
-      transition('workButton <=> breakButton', [
-        animate('0.25s')
-      ])
-    ]),
     trigger('workBreak', [
       state('work', style({
       })),
