@@ -16,6 +16,7 @@
     [@workBreak]="{
         value: isWork ? 'work' : 'break'
     }"
+    (@workBreak.done)="switchButton()"
 >
     <div class="row py-5">
         <div class="col-md">
@@ -43,20 +44,20 @@
     <div class="row" style="height: 132px">
         <div class="col-md-fluid">
             <img
-                class="btn-center skip-img test"
+                class="btn-center skip-img"
                 (click)="onSkipToBreak()"
                 src="assets/SkipToBreak.png"
-                [@workBreakButton]="{
-                    value: isWork ? 'workButton' : 'breakButton'
+                [@toBreakButton]="{
+                    value: buttonWork ? 'workButton' : 'breakButton'
                 }"
             />
             <img
-                class="btn-center skip-img test"
+                class="btn-center skip-img"
                 (click)="onSkipToBreak()"
                 src="assets/SkipToWork.png"
                 style="position: absolute; width: 453px; height: 132px"
-                [@workBreakButton]="{
-                    value: isWork ? 'workButton' : 'breakButton'
+                [@toWorkButton]="{
+                    value: buttonWork ? 'workButton' : 'breakButton'
                 }"
             />
         </div>
