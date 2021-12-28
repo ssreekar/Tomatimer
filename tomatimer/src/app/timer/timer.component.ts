@@ -9,13 +9,35 @@ import {trigger, state, style, animate, transition, keyframes, query, group} fro
   templateUrl: './timer.component.html',
   styleUrls: ['./timer.component.css'],
   animations: [
+    trigger('toBreakButton', [
+      state('workButton', style({
+        opacity: 1
+      })),
+      state('breakButton', style({
+        opacity: 0
+      })),
+      transition('workButton <=> breakButton', [
+        animate('0.25s')
+      ])
+    ]),
+    trigger('toWorkButton', [
+      state('workButton', style({
+        opacity: 0
+      })),
+      state('breakButton', style({
+        opacity: 1
+      })),
+      transition('workButton <=> breakButton', [
+        animate('0.25s')
+      ])
+    ]),
     trigger('workBreak', [
       state('work', style({
       })),
       state('break', style({
       })),
       transition ('work => break', [
-        group([animate('1.25s ease-in-out', keyframes([
+        animate('1.25s ease-in-out', keyframes([
           style({
             transform: 'translateY(-224px)',
             offset: 0.35
@@ -28,23 +50,7 @@ import {trigger, state, style, animate, transition, keyframes, query, group} fro
             offset: 1
           })
         ])),
-        query('.test', [
-          animate('1.25s ease-in-out',keyframes([
-            style({
-              opacity: 0,
-              offset: 0.35
-            }),
-            style({
-              opacity: 0,
-              offset: 0.65
-            }),
-            style ({
-              opacity: 1,
-              offset: 1
-            })
-          ]))
-        ])
-      ])]),
+      ]),
       transition('break => work', [
         animate('1.25s ease-in-out', keyframes([
           style({
@@ -68,6 +74,7 @@ export class TimerComponent implements OnInit {
   @Input() startMin: number = 0;
   @Input() startSec: number = 0;
   isWork: Boolean = true;
+  buttonWork: Boolean = true;
   obj:TimerInfo = {minutes: this.startMin, seconds:this.startSec, stringMin: "00", stringSec: "00"};
   subscription: Subscription;
   moving: boolean;
@@ -116,6 +123,10 @@ export class TimerComponent implements OnInit {
 
   onSkipToBreak() {
     //Code where Break is skipped to
+  }
+
+  switchButton() {
+    this.buttonWork = !this.buttonWork;
   }
 
   //Future Updates: Make it so timer is saved to milliseconds so if we press pause at the last second
