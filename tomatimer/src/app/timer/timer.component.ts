@@ -9,12 +9,12 @@ import {trigger, state, style, animate, transition, keyframes, query, group} fro
   templateUrl: './timer.component.html',
   styleUrls: ['./timer.component.css'],
   animations: [
-    trigger('workBreak', [
-      state('work', style({
+    trigger('switchState', [
+      state('first', style({
       })),
-      state('break', style({
+      state('second', style({
       })),
-      transition ('work => break', [
+      transition ('first <=> second', [
         animate('1.25s ease-in-out', keyframes([
           style({
             transform: 'translateY(-224px)',
@@ -29,60 +29,52 @@ import {trigger, state, style, animate, transition, keyframes, query, group} fro
           })
         ])),
       ]),
-      transition('break => work', [
-        animate('1.25s ease-in-out', keyframes([
-          style({
-            transform: 'translateY(-224px)',
-            offset: 0.5
-          }),
-          style({
-            transform: 'translateY(-224px)',
-            offset: 0.65
-          }),
-          style ({
-            offset: 1
-          })
-        ]))
-      ])
     ]),
   ]
 })
 
 export class TimerComponent implements OnInit {
-  @Input() startMin: number = 0;
-  @Input() startSec: number = 0;
-  isWork: Boolean = true;
-  buttonWork: Boolean = true;
-  obj:TimerInfo = {minutes: this.startMin, seconds:this.startSec, stringMin: "00", stringSec: "00"};
+  @Input() obj: TimerInfo = {workMinutes: 0, workSeconds: 0, breakMinutes: 0, breakSeconds: 0};
+  isWork: boolean = true;
+  switchState: boolean = true;
+  curSecond: number = 0;
+  curMinute: number = 0;
+  curStringSecond: string = "00";
+  curStringMinute: string = "00";
   subscription: Subscription;
   moving: boolean;
-  imgSource: string = "Break";
 
   constructor(@Inject(LOCALE_ID) public locale: string,) {
-    const source = interval(1000);
+    const source = interval(100);
     this.subscription = source.subscribe(call => this.secPass());
     this.moving = true;
   }
 
 
   ngOnInit(): void {
-    this.setMin(this.startMin);
-    this.setSec(this.startSec);
+    this.resetTimers();
+  }
+
+  resetTimers(): void {
+    if (this.isWork) {
+      this.curMinute = this.obj.workMinutes;
+      this.curSecond = this.obj.workSeconds;
+    } else {
+      this.curMinute = this.obj.breakMinutes;
+      this.curSecond = this.obj.breakSeconds;
+    }
+    this.setTimes();
+  }
+
+  setTimes(): void {
+    this.curStringSecond = formatNumber(this.curSecond, this.locale, '2.0');
+    this.curStringMinute = formatNumber(this.curMinute, this.locale, '1.0');
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  setSec(seconds:number) {
-    this.obj.seconds = seconds;
-    this.obj.stringSec = formatNumber(this.obj.seconds, this.locale, '2.0');
-  }
-
-  setMin(minutes:number) {
-    this.obj.minutes = minutes;
-    this.obj.stringMin = formatNumber(this.obj.minutes, this.locale, '2.0');
-  }
 
   onStart() {
     this.moving = true;
@@ -90,9 +82,10 @@ export class TimerComponent implements OnInit {
 
   onReset() {
     this.moving = false;
-    this.setMin(this.startMin);
-    this.setSec(this.startSec);
-    this.isWork = !this.isWork;
+    this.switchState = !this.switchState;
+    setTimeout(() => {
+      this.resetTimers();
+    }, 500)
   }
 
   onStop() {
@@ -100,11 +93,13 @@ export class TimerComponent implements OnInit {
   }
 
   onSkipToBreak() {
+    this.moving = false;
+    this.switchState = !this.switchState;
+    this.isWork = !this.isWork;
+    setTimeout(() => {
+      this.resetTimers();
+    }, 500)
     //Code where Break is skipped to
-  }
-
-  switchButton() {
-    this.buttonWork = !this.buttonWork;
   }
 
   //Future Updates: Make it so timer is saved to milliseconds so if we press pause at the last second
@@ -113,18 +108,17 @@ export class TimerComponent implements OnInit {
     if (!this.moving) {
       return;
     }
-    if (this.obj.seconds == 0) {
-      if (this.obj.minutes == 0) {
+    if (this.curSecond == 0) {
+      if (this.curMinute == 0) {
         console.log("DONE!!");
       } else {
-        this.obj.minutes -= 1;
-        this.obj.seconds = 59;
+        this.curMinute -= 1;
+        this.curSecond = 59;
       }
     } else {
-      this.obj.seconds -= 1;
+      this.curSecond -= 1;
     }
-    this.setSec(this.obj.seconds);
-    this.setMin(this.obj.minutes);
+    this.setTimes();
   }
 
 }

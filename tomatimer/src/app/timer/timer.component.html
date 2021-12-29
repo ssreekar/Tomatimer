@@ -5,7 +5,7 @@
     <div class="row py-5" style="background-color: #393e46ff">
         <div class="col-md gx-4">
             <h3 style="text-align: center" class="time text-center">
-                {{ obj.stringMin }} : {{ obj.stringSec }}
+                {{ curStringMinute }} : {{ curStringSecond }}
             </h3>
         </div>
     </div>
@@ -13,10 +13,9 @@
 <div
     class="container-fluid"
     style="height: 100%; background-color: #222831ff"
-    [@workBreak]="{
-        value: isWork ? 'work' : 'break'
+    [@switchState]="{
+        value: switchState ? 'first' : 'second'
     }"
-    (@workBreak.done)="switchButton()"
 >
     <div class="row py-5">
         <div class="col-md">

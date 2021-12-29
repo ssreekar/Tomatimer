@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 export interface TimerInfo {
-  minutes: number;
-  seconds: number;
-  stringMin: string;
-  stringSec: string;
+  workMinutes: number;
+  workSeconds: number;
+  breakMinutes: number;
+  breakSeconds: number;
 };
 
 
@@ -15,8 +15,6 @@ export interface TimerInfo {
 })
 
 export class AppComponent {
-
-  startSec: number = 0
-  startMin: number = 25
+  testObj: TimerInfo = {workMinutes: 25, workSeconds: 0, breakMinutes: 5, breakSeconds: 0};
   title:string = 'tomatimer';
 }
