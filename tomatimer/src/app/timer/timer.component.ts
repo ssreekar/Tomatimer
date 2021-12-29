@@ -1,8 +1,8 @@
-import { Component, Input, OnInit, Inject, LOCALE_ID, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, Input, OnInit, Inject, LOCALE_ID} from '@angular/core';
 import { TimerInfo } from '../app.component';
 import { interval, Subscription } from 'rxjs';
 import { formatNumber } from '@angular/common';
-import {trigger, state, style, animate, transition, keyframes, query, group} from '@angular/animations'
+import {trigger, state, style, animate, transition, keyframes} from '@angular/animations'
 
 @Component({
   selector: 'app-timer',
@@ -35,26 +35,27 @@ import {trigger, state, style, animate, transition, keyframes, query, group} fro
 
 export class TimerComponent implements OnInit {
   @Input() obj: TimerInfo = {workMinutes: 0, workSeconds: 0, breakMinutes: 0, breakSeconds: 0};
-  isWork: boolean = true;
-  switchState: boolean = true;
   curSecond: number = 0;
   curMinute: number = 0;
   curStringSecond: string = "00";
   curStringMinute: string = "00";
+  isWork: boolean = true;
+  switchState: boolean = true;
+  disablePresses:boolean = false;
+  moving: boolean = true;
   subscription: Subscription;
-  moving: boolean;
 
   constructor(@Inject(LOCALE_ID) public locale: string,) {
-    const source = interval(100);
+    //Handling timer repeat functionality
+    const source = interval(1000);
     this.subscription = source.subscribe(call => this.secPass());
-    this.moving = true;
   }
-
 
   ngOnInit(): void {
     this.resetTimers();
   }
 
+  //Reset Timers to Default Work or Break values
   resetTimers(): void {
     if (this.isWork) {
       this.curMinute = this.obj.workMinutes;
@@ -66,6 +67,7 @@ export class TimerComponent implements OnInit {
     this.setTimes();
   }
 
+  //Populate string values of second/minute values from default number values
   setTimes(): void {
     this.curStringSecond = formatNumber(this.curSecond, this.locale, '2.0');
     this.curStringMinute = formatNumber(this.curMinute, this.locale, '1.0');
@@ -75,36 +77,53 @@ export class TimerComponent implements OnInit {
     this.subscription.unsubscribe();
   }
 
-
-  onStart() {
-    this.moving = true;
+  //Press Start Button Functionality
+  onStart(): void {
+    if (!this.disablePresses) {
+      this.moving = true;
+    }
   }
 
-  onReset() {
-    this.moving = false;
-    this.switchState = !this.switchState;
-    setTimeout(() => {
-      this.resetTimers();
-    }, 500)
+  //Press Reset Button Functionality
+  onReset(): void {
+    if (!this.disablePresses) {
+      this.disablePresses = true;
+      this.moving = false;
+      this.switchState = !this.switchState;
+      setTimeout(() => {
+        this.resetTimers();
+      }, 500)
+    }
   }
 
-  onStop() {
-    this.moving = false;
+  //Press Stop Button Functionality
+  onStop(): void {
+    if (!this.disablePresses) {
+      this.moving = false;
+    }
   }
 
-  onSkipToBreak() {
-    this.moving = false;
-    this.switchState = !this.switchState;
-    this.isWork = !this.isWork;
-    setTimeout(() => {
-      this.resetTimers();
-    }, 500)
-    //Code where Break is skipped to
+  //Press Skipto (Break or Work) Button Functionality
+  onSkipTo(): void {
+    if (!this.disablePresses) {
+      this.disablePresses = true;
+      this.moving = false;
+      this.switchState = !this.switchState;
+      this.isWork = !this.isWork;
+      setTimeout(() => {
+        this.resetTimers();
+      }, 500)
+    }
+  }
+
+  //When Animations are complete reenable button presses
+  reenablePresses(): void {
+    this.disablePresses = false;
   }
 
   //Future Updates: Make it so timer is saved to milliseconds so if we press pause at the last second
   //when play is pressed it is updated accordingly. 
-  secPass() {
+  secPass(): void {
     if (!this.moving) {
       return;
     }

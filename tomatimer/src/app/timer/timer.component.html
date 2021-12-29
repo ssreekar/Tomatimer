@@ -16,6 +16,7 @@
     [@switchState]="{
         value: switchState ? 'first' : 'second'
     }"
+    (@switchState.done)="reenablePresses()"
 >
     <div class="row py-5">
         <div class="col-md">
@@ -44,7 +45,7 @@
         <div class="col-md-fluid">
             <img
                 class="skip-img btn-center"
-                (click)="onSkipToBreak()"
+                (click)="onSkipTo()"
                 src="assets/SkipToBreak.png"
                 [ngStyle]="{
                     opacity: isWork ? '1' : '0',
@@ -54,7 +55,7 @@
             />
             <img
                 class="skip-img btn-center"
-                (click)="onSkipToBreak()"
+                (click)="onSkipTo()"
                 src="assets/SkipToWork.png"
                 [ngStyle]="{
                     opacity: isWork ? '0' : '1',
