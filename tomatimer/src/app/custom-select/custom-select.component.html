@@ -1,13 +1,14 @@
 <div class="container-fluid">
-    <div class="row">
+    <div class="row" style="background-color: #eeeeeeff">
         <div class="col-md">
             <h2 class="display-2 text-center my-4">Custom Time</h2>
         </div>
     </div>
-    <div class="row my-5">
+    <div class="row pb-5 pt-3" style="background-color: #393e46ff">
         <div class="col-md">
-            <h4 class="display-4 text-center">Work Time</h4>
-            <br />
+            <h4 class="display-4 text-center pb-4" style="color: #eeeeeeff">
+                Work Time
+            </h4>
             <input
                 class="form-control input-field"
                 (keypress)="numberOnly($event)"
@@ -15,8 +16,9 @@
             />
         </div>
         <div class="col-md">
-            <h4 class="display-4 text-center">Break Time</h4>
-            <br />
+            <h4 class="display-4 text-center pb-4" style="color: #eeeeeeff">
+                Break Time
+            </h4>
             <input
                 class="form-control input-field"
                 (keypress)="numberOnly($event)"
@@ -24,8 +26,7 @@
             />
         </div>
     </div>
-    <br />
-    <div class="row my-5">
+    <div class="row py-5" style="background-color: #222831ff">
         <div class="col-md"></div>
         <div class="col-md">
             <img
