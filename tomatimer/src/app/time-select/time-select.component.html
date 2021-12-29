@@ -1,36 +1,53 @@
 <div class="container-fluid">
-    <div class="row mt-4 mb-5">
+    <div class="row py-4" style="background-color: #eeeeeeff">
         <div class="col-md">
             <h2 class="display-2 text-center">Select Timer</h2>
         </div>
     </div>
-    <div class="row mt-5 mb-0">
-        <div class="col-md">
-            <h5 class="text-center display-4">Standard</h5>
-        </div>
-        <div class="col-md">
-            <h5 class="text-center display-4">Extra</h5>
-        </div>
-        <div class="col-md">
-            <h5 class="text-center display-4">Custom</h5>
-        </div>
-    </div>
-    <div class="row mb-5">
-        <div class="col-md custom-center">
+    <div class="row">
+        <div
+            class="col-md py-3 custom-center"
+            style="position: relative; background-color: #393e46ff"
+        >
+            <h5
+                class="text-center display-4"
+                style="position: absolute; top: 15px; color: #eeeeeeff"
+            >
+                Standard
+            </h5>
             <img
                 class="img-button"
                 src="assets/button_25_5.png"
                 (click)="standardClick()"
+                syle="position:absolute"
             />
         </div>
-        <div class="col-md custom-center">
+        <div
+            class="col-md py-3 custom-center"
+            style="position: relative; background-color: #222831ff"
+        >
+            <h5
+                class="text-center display-4"
+                style="position: absolute; top: 15px; color: #eeeeeeff"
+            >
+                Extra
+            </h5>
             <img
                 class="img-button extra-select"
                 src="assets/button_50_10.png"
                 (click)="extraClick()"
             />
         </div>
-        <div class="col-md custom-center">
+        <div
+            class="col-md py-3 custom-center"
+            style="position: relative; background-color: #393e46ff"
+        >
+            <h5
+                class="text-center display-4"
+                style="position: absolute; top: 15px; color: #eeeeeeff"
+            >
+                Custom
+            </h5>
             <img
                 class="img-button custom-select"
                 src="assets/button_unknown.png"
@@ -38,5 +55,4 @@
             />
         </div>
     </div>
-    <div class="row"></div>
 </div>

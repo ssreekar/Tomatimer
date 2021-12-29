@@ -1,15 +1,13 @@
 .img-button {
     transition: all 0.2s ease;
-    max-width: 70%;
-    height: auto;
+    height: 341px;
 }
 
 .custom-center {
     display: flex;
-    text-align: center;
     justify-content: center;
-    align-items: center;
-    height: 500px;
+    align-items: flex-end;
+    height: 475px;
 }
 
 .img-button:hover {
