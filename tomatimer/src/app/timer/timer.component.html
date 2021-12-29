@@ -44,16 +44,24 @@
     <div class="row" style="height: 132px">
         <div class="col-md-fluid">
             <img
-                class="btn-center skip-img"
+                class="skip-img btn-center"
                 (click)="onSkipToBreak()"
                 src="assets/SkipToBreak.png"
-                [ngStyle]="{ opacity: isWork ? '1' : '0' }"
+                [ngStyle]="{
+                    opacity: isWork ? '1' : '0',
+                    'z-index': isWork ? '1' : '0',
+                    transition: 'all 0.2s ease'
+                }"
             />
             <img
-                class="btn-center skip-img"
+                class="skip-img btn-center"
                 (click)="onSkipToBreak()"
                 src="assets/SkipToWork.png"
-                [ngStyle]="{ opacity: isWork ? '0' : '1' }"
+                [ngStyle]="{
+                    opacity: isWork ? '0' : '1',
+                    'z-index': isWork ? '0' : '1',
+                    transition: 'all 0.2s ease'
+                }"
             />
         </div>
     </div>
