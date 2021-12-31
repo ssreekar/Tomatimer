@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "tomatimer-1a435"
+  },
+  "targets": {
+    "tomatimer-1a435": {
+      "hosting": {
+        "tomatimer": [
+          "tomatimer-1a435"
+        ]
+      }
+    }
+  }
+}

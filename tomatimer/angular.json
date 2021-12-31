@@ -101,6 +101,16 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "tomatimer:build:production",
+            "firebaseProject": "tomatimer-1a435",
+            "firebaseHostingSite": "tomatimer-1a435"
+          }
         }
       }
     }
