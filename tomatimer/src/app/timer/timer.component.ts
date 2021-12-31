@@ -44,6 +44,7 @@ export class TimerComponent implements OnInit {
   disablePresses:boolean = false;
   moving: boolean = true;
   subscription: Subscription;
+  titleString: string = "Work Time!"
 
   constructor(@Inject(LOCALE_ID) public locale: string,) {
     //Handling timer repeat functionality
@@ -129,7 +130,7 @@ export class TimerComponent implements OnInit {
     }
     if (this.curSecond == 0) {
       if (this.curMinute == 0) {
-        console.log("DONE!!");
+        this.onSkipTo()
       } else {
         this.curMinute -= 1;
         this.curSecond = 59;

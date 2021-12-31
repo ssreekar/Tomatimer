@@ -70,7 +70,7 @@ export class CustomSelectComponent implements OnInit {
       let workSec:number = this.workSeconds == "" ? 0 : parseInt(this.workSeconds);
       let breakMin:number = this.breakMinutes == "" ? 0 : parseInt(this.breakMinutes);
       let breakSec:number = this.breakSeconds == "" ? 0 : parseInt(this.breakSeconds);
-      if (workMin == 0 && workSec == 0 && breakMin == 0 && breakSec == 0) {
+      if ((workMin == 0 && workSec == 0) || (breakMin == 0 && breakSec == 0)) {
         this.showError = true;
         return;
       }

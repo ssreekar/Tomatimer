@@ -48,7 +48,3 @@
 .skip-img:hover {
     transform: scale(1.1);
 }
-
-body {
-    background-color: black;
-}
