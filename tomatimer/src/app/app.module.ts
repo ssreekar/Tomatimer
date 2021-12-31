@@ -16,6 +16,9 @@ import { CustomSelectComponent } from './custom-select/custom-select.component';
     TimeSelectComponent,
     CustomSelectComponent
   ],
+  entryComponents: [
+    TimeSelectComponent
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

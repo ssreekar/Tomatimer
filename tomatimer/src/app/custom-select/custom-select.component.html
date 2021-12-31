@@ -10,20 +10,45 @@
                 Work Time
             </h4>
             <input
-                class="form-control input-field"
+                class="form-control-sm input-field"
                 (keypress)="numberOnly($event)"
                 (input)="updateWork($event)"
             />
+            <input class="form-control-sm input-field" />
         </div>
         <div class="col-md">
             <h4 class="display-4 text-center pb-4" style="color: #eeeeeeff">
                 Break Time
             </h4>
-            <input
-                class="form-control input-field"
-                (keypress)="numberOnly($event)"
-                (input)="updateBreak($event)"
-            />
+            <div
+                style="
+                    display: inline;
+                    margin-left: auto;
+                    margin-right: auto;
+                    text-align: center;
+                "
+            >
+                <input
+                    class="form-control-sm input-field"
+                    (keypress)="numberOnly($event)"
+                    (input)="updateBreak($event)"
+                    style="display: inline"
+                />
+                <h4
+                    class="display-4"
+                    style="
+                        display: inline;
+                        text-align: center;
+                        background-color: black;
+                    "
+                >
+                    :
+                </h4>
+                <input
+                    class="form-control-sm input-field"
+                    style="display: inline"
+                />
+            </div>
         </div>
     </div>
     <div class="row py-5" style="background-color: #222831ff">

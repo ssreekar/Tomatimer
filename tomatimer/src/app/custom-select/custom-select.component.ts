@@ -6,7 +6,7 @@ import { Component, OnInit, Output, EventEmitter} from '@angular/core';
   styleUrls: ['./custom-select.component.css']
 })
 export class CustomSelectComponent implements OnInit {
-  @Output() messageEvent = new EventEmitter<number[]>();
+  @Output() timeSelectedMessage = new EventEmitter<number[]>();
   acceptedCharCodes:number[] = [8, 26, 27, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57];
   workTime:string = "";
   breakTime:string = "";
@@ -30,7 +30,7 @@ export class CustomSelectComponent implements OnInit {
   }
 
   onSubmit() {
-    this.messageEvent.emit([parseInt(this.workTime), parseInt(this.breakTime)]);
+    this.timeSelectedMessage.emit([parseInt(this.workTime), parseInt(this.breakTime)]);
   }
 
 }

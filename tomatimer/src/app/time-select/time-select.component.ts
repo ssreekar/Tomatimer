@@ -7,7 +7,7 @@ import { Component, OnInit, Output, EventEmitter} from '@angular/core';
 })
 export class TimeSelectComponent implements OnInit {
 
-  @Output() messageEvent = new EventEmitter<number[]>();
+  @Output() timeSelectedMessage = new EventEmitter<number[]>();
 
   constructor() { }
 
@@ -15,15 +15,15 @@ export class TimeSelectComponent implements OnInit {
   }
 
   standardClick() {
-    this.messageEvent.emit([25, 5]);
+    this.timeSelectedMessage.emit([25, 5]);
   }
 
   extraClick() {
-    this.messageEvent.emit([50, 10]);
+    this.timeSelectedMessage.emit([50, 10]);
   }
 
   customClick() {
-    this.messageEvent.emit([-1, -1]);
+    this.timeSelectedMessage.emit([-1, -1]);
   }
 
 }
