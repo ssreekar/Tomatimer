@@ -42,7 +42,7 @@ export class TimerComponent implements OnInit {
   isWork: boolean = true;
   switchState: boolean = true;
   disablePresses:boolean = false;
-  moving: boolean = true;
+  moving: boolean = false;
   subscription: Subscription;
   titleString: string = "Work Time!"
 
