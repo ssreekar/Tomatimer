@@ -9,44 +9,73 @@
             <h4 class="display-4 text-center pb-4" style="color: #eeeeeeff">
                 Work Time
             </h4>
-            <input
-                class="form-control-sm input-field"
-                (keypress)="numberOnly($event)"
-                (input)="updateWork($event)"
-            />
-            <input class="form-control-sm input-field" />
-        </div>
-        <div class="col-md">
-            <h4 class="display-4 text-center pb-4" style="color: #eeeeeeff">
-                Break Time
-            </h4>
-            <div
-                style="
-                    display: inline;
-                    margin-left: auto;
-                    margin-right: auto;
-                    text-align: center;
-                "
-            >
+            <div style="display: inline-block; text-align: center">
                 <input
-                    class="form-control-sm input-field"
+                    class="form-control input-field"
                     (keypress)="numberOnly($event)"
-                    (input)="updateBreak($event)"
+                    (input)="updateWorkMinutes($event)"
                     style="display: inline"
+                    [ngClass]="{
+                        'custom-valid': workMinutesValid,
+                        'custom-invalid': !workMinutesValid
+                    }"
                 />
                 <h4
-                    class="display-4"
+                    class="display-1"
                     style="
                         display: inline;
                         text-align: center;
-                        background-color: black;
+                        color: #eeeeeeff;
                     "
                 >
                     :
                 </h4>
                 <input
-                    class="form-control-sm input-field"
+                    class="form-control input-field"
                     style="display: inline"
+                    (keypress)="numberOnly($event, true)"
+                    (input)="updateWorkSeconds($event)"
+                    [ngClass]="{
+                        'custom-valid': workSecondsValid,
+                        'custom-invalid': !workSecondsValid
+                    }"
+                />
+            </div>
+        </div>
+        <div class="col-md">
+            <h4 class="display-4 text-center pb-4" style="color: #eeeeeeff">
+                Break Time
+            </h4>
+            <div style="display: inline-block; text-align: center">
+                <input
+                    class="form-control input-field"
+                    (keypress)="numberOnly($event)"
+                    (input)="updateBreakMinutes($event)"
+                    style="display: inline"
+                    [ngClass]="{
+                        'custom-valid': breakMinutesValid,
+                        'custom-invalid': !breakMinutesValid
+                    }"
+                />
+                <h4
+                    class="display-1"
+                    style="
+                        display: inline;
+                        text-align: center;
+                        color: #eeeeeeff;
+                    "
+                >
+                    :
+                </h4>
+                <input
+                    class="form-control input-field"
+                    style="display: inline"
+                    (keypress)="numberOnly($event, true)"
+                    (input)="updateBreakSeconds($event)"
+                    [ngClass]="{
+                        'custom-valid': breakSecondsValid,
+                        'custom-invalid': !breakSecondsValid
+                    }"
                 />
             </div>
         </div>
@@ -59,6 +88,13 @@
                 (click)="onSubmit()"
                 src="assets/submit.png"
             />
+            <h4
+                class="display-4 text-center pt-2"
+                style="color: #eeeeeeff; font-family: Sora; font-size: 26px"
+                [ngStyle]="{ visibility: showError ? 'visible' : 'hidden' }"
+            >
+                Invalid Input
+            </h4>
         </div>
         <div class="col-md"></div>
     </div>

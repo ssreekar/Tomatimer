@@ -8,29 +8,77 @@ import { Component, OnInit, Output, EventEmitter} from '@angular/core';
 export class CustomSelectComponent implements OnInit {
   @Output() timeSelectedMessage = new EventEmitter<number[]>();
   acceptedCharCodes:number[] = [8, 26, 27, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57];
-  workTime:string = "";
-  breakTime:string = "";
+  workSeconds: string = "";
+  workMinutes: string = "";
+  breakSeconds: string = "";
+  breakMinutes: string = "";
+  workMinutesValid: boolean = true;
+  workSecondsValid: boolean = true;
+  breakMinutesValid: boolean = true;
+  breakSecondsValid: boolean = true;
+  showError: boolean = false;
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  updateWork(event:any) {
-    this.workTime = event.target.value;
+  checkMinuteString(value: string):boolean {
+    if (value == "" || parseInt(value) >= 0) {
+      return true;  
+    }
+    return false;
   }
 
-  updateBreak(event:any){
-    this.breakTime = event.target.value    
+  checkSecondString(value: string): boolean {
+    if (value == "" || (parseInt(value) >= 0 && parseInt(value) <= 59)) {
+      return true;
+    }
+    return false;
   }
 
-  numberOnly(event:any):boolean {
+  updateWorkMinutes(event:any) {
+    this.workMinutes = event.target.value;
+    this.workMinutesValid = this.checkMinuteString(this.workMinutes);
+  }
+
+
+  updateWorkSeconds(event:any) {
+    this.workSeconds = event.target.value;
+    this.workSecondsValid = this.checkSecondString(this.workSeconds);
+  }
+
+  updateBreakMinutes(event:any){
+    this.breakMinutes = event.target.value;
+    this.breakMinutesValid = this.checkMinuteString(this.breakMinutes);
+  }
+
+  updateBreakSeconds(event:any){
+    this.breakSeconds = event.target.value;
+    this.breakSecondsValid = this.checkSecondString(this.breakSeconds);
+  }
+
+  numberOnly(event:any, seconds?:boolean):boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
-    return this.acceptedCharCodes.includes(charCode);
+    const returnValue = this.acceptedCharCodes.includes(charCode);
+    return returnValue;
   }
 
   onSubmit() {
-    this.timeSelectedMessage.emit([parseInt(this.workTime), parseInt(this.breakTime)]);
+    if (this.workSecondsValid && this.workMinutesValid && this.breakSecondsValid && this.breakMinutesValid) {
+      let workMin:number = this.workMinutes == "" ? 0 : parseInt(this.workMinutes);
+      let workSec:number = this.workSeconds == "" ? 0 : parseInt(this.workSeconds);
+      let breakMin:number = this.breakMinutes == "" ? 0 : parseInt(this.breakMinutes);
+      let breakSec:number = this.breakSeconds == "" ? 0 : parseInt(this.breakSeconds);
+      if (workMin == 0 && workSec == 0 && breakMin == 0 && breakSec == 0) {
+        this.showError = true;
+        return;
+      }
+      let sendValue =  [workMin, workSec, breakMin, breakSec];
+      this.timeSelectedMessage.emit(sendValue);
+      this.showError = false;
+    } else {
+      this.showError = true;
+    }
   }
-
 }

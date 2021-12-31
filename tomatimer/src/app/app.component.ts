@@ -46,6 +46,7 @@ export class AppComponent implements  AfterViewInit{
     tempVal = this.container.createComponent(this.resolver.resolveComponentFactory(CustomSelectComponent));
     tempVal.instance.timeSelectedMessage.subscribe(data => {
       if (data[0] == -1) {
+        this.container.remove(0);
         this.loadCustomPage();
       } else {
         this.container.remove(0);
@@ -58,11 +59,13 @@ export class AppComponent implements  AfterViewInit{
     let tempVal: ComponentRef<TimerComponent>;
     let componentVal = this.resolver.resolveComponentFactory(TimerComponent);
     tempVal = this.container.createComponent(this.resolver.resolveComponentFactory(TimerComponent));
-  
+    let sendData: TimerInfo = {workMinutes: data[0], workSeconds: data[1], breakMinutes: data[2], breakSeconds: data[3]};
+    tempVal.instance.obj = sendData;
   }
 
   timeSelectedParser(data: number[]): void {
     if (data[0] == -1) {
+      this.container.remove(0);
       this.loadCustomPage();
     } else {
       this.container.remove(0);

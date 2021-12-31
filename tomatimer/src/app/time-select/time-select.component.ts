@@ -15,15 +15,15 @@ export class TimeSelectComponent implements OnInit {
   }
 
   standardClick() {
-    this.timeSelectedMessage.emit([25, 5]);
+    this.timeSelectedMessage.emit([25, 0, 5, 0]);
   }
 
   extraClick() {
-    this.timeSelectedMessage.emit([50, 10]);
+    this.timeSelectedMessage.emit([50, 0, 10, 0]);
   }
 
   customClick() {
-    this.timeSelectedMessage.emit([-1, -1]);
+    this.timeSelectedMessage.emit([-1, -1, -1, -1]);
   }
 
 }
