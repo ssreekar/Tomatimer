@@ -1,4 +1,6 @@
 import { Component, OnInit, Output, EventEmitter} from '@angular/core';
+import { LocationStrategy } from '@angular/common';
+
 
 @Component({
   selector: 'app-custom-select',
@@ -7,6 +9,7 @@ import { Component, OnInit, Output, EventEmitter} from '@angular/core';
 })
 export class CustomSelectComponent implements OnInit {
   @Output() timeSelectedMessage = new EventEmitter<number[]>();
+  @Output() backEvent = new EventEmitter<boolean>();
   acceptedCharCodes:number[] = [8, 26, 27, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57];
   workSeconds: string = "";
   workMinutes: string = "";
@@ -18,7 +21,13 @@ export class CustomSelectComponent implements OnInit {
   breakSecondsValid: boolean = true;
   showError: boolean = false;
 
-  constructor() { }
+  constructor(private location:LocationStrategy) { 
+    history.pushState(null, "", window.location.href);
+    this.location.onPopState(() => {
+        history.pushState(null, "", window.location.href);
+        this.onBack();
+    });
+  }
 
   ngOnInit(): void {
   }
@@ -62,6 +71,10 @@ export class CustomSelectComponent implements OnInit {
     const charCode = (event.which) ? event.which : event.keyCode;
     const returnValue = this.acceptedCharCodes.includes(charCode);
     return returnValue;
+  }
+
+  onBack(): void {
+    this.backEvent.emit(true);
   }
 
   onSubmit() {

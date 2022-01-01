@@ -48,3 +48,12 @@
 .skip-img:hover {
     transform: scale(1.1);
 }
+
+.back-button {
+    height: 96px;
+    transition: all 0.2s ease;
+}
+
+.back-button:hover {
+    transform: scale(1.1);
+}

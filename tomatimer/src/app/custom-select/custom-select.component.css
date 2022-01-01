@@ -29,3 +29,12 @@
     border-radius: 1px;
     box-shadow: 0px 0px 0px 4px rgba(92, 184, 92, 0.3);
 }
+
+.back-button {
+    height: 96px;
+    transition: all 0.2s ease;
+}
+
+.back-button:hover {
+    transform: scale(1.1);
+}

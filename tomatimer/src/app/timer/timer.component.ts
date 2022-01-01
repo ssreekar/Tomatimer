@@ -1,7 +1,7 @@
-import { Component, Input, OnInit, Inject, LOCALE_ID} from '@angular/core';
+import { Component, Input, Output, OnInit, Inject, LOCALE_ID, EventEmitter} from '@angular/core';
 import { TimerInfo } from '../app.component';
 import { interval, Subscription } from 'rxjs';
-import { formatNumber } from '@angular/common';
+import { formatNumber, LocationStrategy } from '@angular/common';
 import {trigger, state, style, animate, transition, keyframes} from '@angular/animations'
 
 @Component({
@@ -35,6 +35,7 @@ import {trigger, state, style, animate, transition, keyframes} from '@angular/an
 
 export class TimerComponent implements OnInit {
   @Input() obj: TimerInfo = {workMinutes: 0, workSeconds: 0, breakMinutes: 0, breakSeconds: 0};
+  @Output() backEvent = new EventEmitter<boolean>();
   curSecond: number = 0;
   curMinute: number = 0;
   curStringSecond: string = "00";
@@ -44,16 +45,24 @@ export class TimerComponent implements OnInit {
   disablePresses:boolean = false;
   moving: boolean = false;
   subscription: Subscription;
-  titleString: string = "Work Time!"
 
-  constructor(@Inject(LOCALE_ID) public locale: string,) {
+  constructor(@Inject(LOCALE_ID) public locale: string, private location: LocationStrategy) {
     //Handling timer repeat functionality
     const source = interval(1000);
     this.subscription = source.subscribe(call => this.secPass());
+    history.pushState(null, "", window.location.href);
+    this.location.onPopState(() => {
+        history.pushState(null, "", window.location.href);
+        this.onBack();
+    });
   }
 
   ngOnInit(): void {
     this.resetTimers();
+  }
+
+  backClicked(){
+
   }
 
   //Reset Timers to Default Work or Break values
@@ -121,6 +130,11 @@ export class TimerComponent implements OnInit {
   reenablePresses(): void {
     this.disablePresses = false;
   }
+
+  onBack(): void {
+    this.backEvent.emit(true);
+  }
+
 
   //Future Updates: Make it so timer is saved to milliseconds so if we press pause at the last second
   //when play is pressed it is updated accordingly. 
