@@ -44,7 +44,10 @@ export class TimerComponent implements OnInit {
   switchState: boolean = true;
   disablePresses:boolean = false;
   moving: boolean = false;
+  skipAlarm: boolean = true;
   subscription: Subscription;
+  audio: HTMLAudioElement = new Audio();
+  looseCalls: number = 0;
 
   constructor(@Inject(LOCALE_ID) public locale: string, private location: LocationStrategy) {
     //Handling timer repeat functionality
@@ -59,10 +62,16 @@ export class TimerComponent implements OnInit {
 
   ngOnInit(): void {
     this.resetTimers();
+    this.audio.src = "assets/audio/alarmSound.mp3";
   }
 
-  backClicked(){
+  playAudio(){
+    this.audio.play();
+  }
 
+  resetAudio(): void {
+    this.audio.pause();
+    this.audio.currentTime = 0;
   }
 
   //Reset Timers to Default Work or Break values
@@ -97,6 +106,8 @@ export class TimerComponent implements OnInit {
   //Press Reset Button Functionality
   onReset(): void {
     if (!this.disablePresses) {
+      this.skipAlarm = true;
+      this.resetAudio();
       this.disablePresses = true;
       this.moving = false;
       this.switchState = !this.switchState;
@@ -116,6 +127,8 @@ export class TimerComponent implements OnInit {
   //Press Skipto (Break or Work) Button Functionality
   onSkipTo(): void {
     if (!this.disablePresses) {
+      this.skipAlarm = true;
+      this.resetAudio();
       this.disablePresses = true;
       this.moving = false;
       this.switchState = !this.switchState;
@@ -143,14 +156,25 @@ export class TimerComponent implements OnInit {
       return;
     }
     if (this.curSecond == 0) {
-      if (this.curMinute == 0) {
-        this.onSkipTo()
-      } else {
+      if (this.curMinute != 0) {
         this.curMinute -= 1;
         this.curSecond = 59;
       }
     } else {
       this.curSecond -= 1;
+      if (this.curSecond == 0 && this.curMinute == 0) {
+        if (this.skipAlarm) {
+          this.skipAlarm = false;
+          this.playAudio();
+          this.looseCalls++;
+          setTimeout(()=> {
+            if (!this.skipAlarm && this.looseCalls == 1) {
+              this.onSkipTo();
+            }
+            this.looseCalls--;
+          }, 6000)
+        }
+      }
     }
     this.setTimes();
   }

@@ -2,7 +2,6 @@ import { TimerComponent } from './timer/timer.component';
 import { CustomSelectComponent } from './custom-select/custom-select.component';
 import { TimeSelectComponent } from './time-select/time-select.component';
 import { Component, AfterViewInit, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentFactory, ComponentRef} from '@angular/core';
-import { Time } from '@angular/common';
 
 export interface TimerInfo {
   workMinutes: number;
@@ -32,6 +31,7 @@ export class AppComponent implements  AfterViewInit{
   }
 
   loadTimeSelectPage(): void {
+    console.log("Add Time Select")
     this.orderOfPages.push("timeSelect");
     let tempVal: ComponentRef<TimeSelectComponent>;
     let componentVal: ComponentFactory<TimeSelectComponent>;
@@ -43,6 +43,7 @@ export class AppComponent implements  AfterViewInit{
   }
 
   loadCustomPage():void {
+    console.log("Add Custom Page")
     this.orderOfPages.push("customPage");
     let tempVal: ComponentRef<CustomSelectComponent>;
     let componentVal = this.resolver.resolveComponentFactory(CustomSelectComponent);
@@ -58,6 +59,7 @@ export class AppComponent implements  AfterViewInit{
   }
 
   loadTimerPage(data: number[]) {
+    console.log("Add Timer Page")
     this.orderOfPages.push("timerPage")
     let tempVal: ComponentRef<TimerComponent>;
     let componentVal = this.resolver.resolveComponentFactory(TimerComponent);
@@ -82,14 +84,23 @@ export class AppComponent implements  AfterViewInit{
   }
 
   loadPreviousPage(): void {
-    this.orderOfPages.pop();
-    let lastPage = this.orderOfPages[this.orderOfPages.length - 1];
+    if (this.orderOfPages.length < 2) {
+      console.log("Error, order of pages is 2 small")
+      return;
+    }
+    let lastPage = this.orderOfPages[this.orderOfPages.length - 2];
     if (lastPage == "timeSelect") {
+      this.orderOfPages.pop()
+      this.orderOfPages.pop()
       this.container.remove(0)
       this.loadTimeSelectPage();
+      console.log(this.orderOfPages.toString())
     } else if (lastPage == "customPage") {
+      this.orderOfPages.pop() 
+      this.orderOfPages.pop()
       this.container.remove(0)
       this.loadCustomPage();
+      console.log(this.orderOfPages.toString())
     }
   }
 
