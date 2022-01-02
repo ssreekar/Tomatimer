@@ -6,15 +6,23 @@ Tomatimer is a website intended to aid productivity via the pomodoro technique. 
 
 This website is currently very much a work in progress and is currently on version:
 
-<h2> 1.0 </h2>
+<h2> 1.1 </h2>
 
 <em>Future Features:</em>
 <br>
-* Audio Alerts (Toggleable) 
-* Option to swith timers after they have been set
+* Refactor Custom Timer Page for more clarity
+* Add Navbar with background information
+* Better Animations
 * Login to save timer data 
 * Data analysis of induvidual login data
 
+<i> Change Notes </i>
+<br> <br>
+<em> 1.1:</em>
+* Audio Alerts when timer reaches zero
+* Added Icon
+* Added / overrided back button functionality for certain components
 
+<br>
 By: Sharujan Sreekaran
 Started: Sept 2, 2021
