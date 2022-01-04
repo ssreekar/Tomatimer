@@ -34,12 +34,15 @@ import {trigger, state, style, animate, transition, keyframes} from '@angular/an
 })
 
 export class TimerComponent implements OnInit {
-  @Input() obj: TimerInfo = {workMinutes: 0, workSeconds: 0, breakMinutes: 0, breakSeconds: 0};
+  @Input() obj: TimerInfo = {workHours: 0, workMinutes: 0, workSeconds: 0, breakHours: 0, breakMinutes: 0, breakSeconds: 0};
   @Output() backEvent = new EventEmitter<boolean>();
   curSecond: number = 0;
   curMinute: number = 0;
+  curHour: number = 0;
   curStringSecond: string = "00";
   curStringMinute: string = "00";
+  curStringHour: string = "0";
+  displayString: string =  "";
   isWork: boolean = true;
   switchState: boolean = true;
   disablePresses:boolean = false;
@@ -51,7 +54,7 @@ export class TimerComponent implements OnInit {
 
   constructor(@Inject(LOCALE_ID) public locale: string, private location: LocationStrategy) {
     //Handling timer repeat functionality
-    const source = interval(1000);
+    const source = interval(1);
     this.subscription = source.subscribe(call => this.secPass());
     history.pushState(null, "", window.location.href);
     this.location.onPopState(() => {
@@ -77,9 +80,11 @@ export class TimerComponent implements OnInit {
   //Reset Timers to Default Work or Break values
   resetTimers(): void {
     if (this.isWork) {
+      this.curHour = this.obj.workHours;
       this.curMinute = this.obj.workMinutes;
       this.curSecond = this.obj.workSeconds;
     } else {
+      this.curHour = this.obj.breakHours;
       this.curMinute = this.obj.breakMinutes;
       this.curSecond = this.obj.breakSeconds;
     }
@@ -89,7 +94,13 @@ export class TimerComponent implements OnInit {
   //Populate string values of second/minute values from default number values
   setTimes(): void {
     this.curStringSecond = formatNumber(this.curSecond, this.locale, '2.0');
-    this.curStringMinute = formatNumber(this.curMinute, this.locale, '1.0');
+    this.curStringMinute = formatNumber(this.curMinute, this.locale, '2.0');
+    this.curStringHour = formatNumber(this.curHour, this.locale, '1.0');
+    if (this.curStringHour == "0") {
+      this.displayString = this.curStringMinute + " : " + this.curStringSecond;
+    } else {
+      this.displayString = this.curStringHour + " : " + this.curStringMinute + " : " + this.curStringSecond;
+    }
   }
 
   ngOnDestroy(): void {
@@ -145,6 +156,7 @@ export class TimerComponent implements OnInit {
   }
 
   onBack(): void {
+    this.resetAudio();
     this.backEvent.emit(true);
   }
 
@@ -159,10 +171,16 @@ export class TimerComponent implements OnInit {
       if (this.curMinute != 0) {
         this.curMinute -= 1;
         this.curSecond = 59;
+      } else {
+        if (this.curHour != 0) {
+          this.curHour = 0;
+          this.curMinute = 59;
+          this.curSecond = 59;
+        }
       }
     } else {
       this.curSecond -= 1;
-      if (this.curSecond == 0 && this.curMinute == 0) {
+      if (this.curSecond == 0 && this.curMinute == 0 && this.curHour == 0) {
         if (this.skipAlarm) {
           this.skipAlarm = false;
           this.playAudio();

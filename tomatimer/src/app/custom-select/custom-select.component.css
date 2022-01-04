@@ -102,6 +102,25 @@
     animation: backwords-animation 0.8s;
 }
 
+.shakeAnimation {
+    animation: shake 0.25s ease;
+}
+
+@keyframes shake {
+    25% {
+        transform: rotate(3deg);
+    }
+    50% {
+        transform: rotate(-3deg);
+    }
+    75% {
+        transform: rotate(3deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
 @keyframes forwards-animation {
     50% {
         opacity: 0;

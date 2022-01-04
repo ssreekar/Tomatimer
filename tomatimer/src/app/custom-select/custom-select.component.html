@@ -271,14 +271,17 @@
                     breakToWork: calculateWork
                 }"
             />
-            <div class="pt-4">
-                <h4
-                    style="color: #d9534f; font-family: Sora"
-                    [ngStyle]="{ display: isError ? 'inline' : 'none' }"
-                >
-                    Must have non-zero work and break times
-                </h4>
-            </div>
         </div>
+    </div>
+    <div class="row pt-2" style="text-align: center">
+        <h4
+            style="color: #d9534f; font-family: Sora"
+            [ngStyle]="{ display: isError ? 'block' : 'none' }"
+            [ngClass]="{
+                shakeAnimation: shakeError
+            }"
+        >
+            Must have non-zero work and break times
+        </h4>
     </div>
 </div>

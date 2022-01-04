@@ -4,10 +4,13 @@ import { TimeSelectComponent } from './time-select/time-select.component';
 import { Component, AfterViewInit, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentFactory, ComponentRef} from '@angular/core';
 
 export interface TimerInfo {
+  workHours: number;
   workMinutes: number;
   workSeconds: number;
+  breakHours: number;
   breakMinutes: number;
   breakSeconds: number;
+
 };
 
 
@@ -64,7 +67,8 @@ export class AppComponent implements  AfterViewInit{
     let tempVal: ComponentRef<TimerComponent>;
     let componentVal = this.resolver.resolveComponentFactory(TimerComponent);
     tempVal = this.container.createComponent(this.resolver.resolveComponentFactory(TimerComponent));
-    let sendData: TimerInfo = {workMinutes: data[0], workSeconds: data[1], breakMinutes: data[2], breakSeconds: data[3]};
+    let sendData: TimerInfo = {workHours: data[0], workMinutes: data[1], workSeconds: data[2], 
+      breakHours: data[3], breakMinutes: data[4], breakSeconds: data[5]};
     tempVal.instance.obj = sendData;
     tempVal.instance.backEvent.subscribe(data => {
       if (data) {
@@ -105,6 +109,5 @@ export class AppComponent implements  AfterViewInit{
   }
 
   
-  testObj: TimerInfo = {workMinutes: 25, workSeconds: 0, breakMinutes: 5, breakSeconds: 0};
   title:string = 'tomatimer';
 }

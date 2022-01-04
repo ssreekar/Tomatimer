@@ -55,7 +55,6 @@ export class CustomSelectComponent implements OnInit {
   workSecondsValid: boolean = true;
   breakMinutesValid: boolean = true;
   breakSecondsValid: boolean = true;
-  showError: boolean = false;
   sixRollerPos: number[] = [-1053, -862, -645, -422, -204, 22]
   nineRollerPos: number[] = [-1936, -1745, -1528, -1305, -1087, -863, -644, -423, -205, 20]
   curTime: timeObj = new timeObj();
@@ -65,6 +64,7 @@ export class CustomSelectComponent implements OnInit {
   toBreak: boolean = true;
   isError:boolean = false;
   buttonDisabled:boolean = false;
+  shakeError: boolean = false;
 
   constructor(private location:LocationStrategy) { 
     history.pushState(null, "", window.location.href);
@@ -123,20 +123,18 @@ export class CustomSelectComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.workSecondsValid && this.workMinutesValid && this.breakSecondsValid && this.breakMinutesValid) {
-      let workMin:number = this.workMinutes == "" ? 0 : parseInt(this.workMinutes);
-      let workSec:number = this.workSeconds == "" ? 0 : parseInt(this.workSeconds);
-      let breakMin:number = this.breakMinutes == "" ? 0 : parseInt(this.breakMinutes);
-      let breakSec:number = this.breakSeconds == "" ? 0 : parseInt(this.breakSeconds);
-      if ((workMin == 0 && workSec == 0) || (breakMin == 0 && breakSec == 0)) {
-        this.showError = true;
-        return;
+    if (!this.buttonDisabled) {
+      this.shakeError = true;
+      setTimeout(()=> {
+        this.shakeError = false;
+      }, 250);
+      this.copyToValue();
+      if (this.workTime.validTime() && this.breakTime.validTime()) {
+        let emitObject = this.workTime.getTimeObject().concat(this.breakTime.getTimeObject());
+        this.timeSelectedMessage.emit(emitObject);
+      } else {
+        this.isError = true;
       }
-      let sendValue =  [workMin, workSec, breakMin, breakSec];
-      this.timeSelectedMessage.emit(sendValue);
-      this.showError = false;
-    } else {
-      this.showError = true;
     }
   }
 
@@ -162,7 +160,6 @@ export class CustomSelectComponent implements OnInit {
       this.copyToValue();
       this.switchValue();
       this.calculateWork = !this.calculateWork;
-      console.log(this.calculateWork)
       setTimeout(()=> {
         this.toBreak = !this.toBreak;
       }, 400)
