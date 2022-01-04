@@ -1,6 +1,42 @@
 import { Component, OnInit, Output, EventEmitter} from '@angular/core';
 import { LocationStrategy } from '@angular/common';
 
+class timeObj {
+  secOnesIndex: number;
+  secTensIndex: number;
+  minOnesIndex: number;
+  minTensIndex: number;
+  hourOnesIndex: number;
+
+  constructor() {
+    this.secOnesIndex = 0;
+    this.secTensIndex = 0;
+    this.minOnesIndex = 0;
+    this.minTensIndex = 0;
+    this.hourOnesIndex = 0;
+  }
+
+  getTimeObject(): number[] {
+    return [this.hourOnesIndex, (this.minTensIndex * 10) + this.minOnesIndex, (this.secTensIndex * 10) + this.secOnesIndex];
+  }
+
+  validTime(): boolean {
+    if (this.hourOnesIndex || this.minTensIndex || this.minOnesIndex || this.secTensIndex || this.secOnesIndex) {
+      return true;
+    }
+    return false;
+  }
+
+  copy(other: timeObj): void {
+    this.secOnesIndex = other.secOnesIndex;
+    this.secTensIndex = other.secTensIndex;
+    this.minOnesIndex = other.minOnesIndex;
+    this.minTensIndex = other.minTensIndex;
+    this.hourOnesIndex = other.hourOnesIndex;
+  }
+ 
+};
+
 
 @Component({
   selector: 'app-custom-select',
@@ -20,6 +56,15 @@ export class CustomSelectComponent implements OnInit {
   breakMinutesValid: boolean = true;
   breakSecondsValid: boolean = true;
   showError: boolean = false;
+  sixRollerPos: number[] = [-1053, -862, -645, -422, -204, 22]
+  nineRollerPos: number[] = [-1936, -1745, -1528, -1305, -1087, -863, -644, -423, -205, 20]
+  curTime: timeObj = new timeObj();
+  workTime: timeObj = new timeObj();
+  breakTime: timeObj = new timeObj();
+  calculateWork:boolean = true;
+  toBreak: boolean = true;
+  isError:boolean = false;
+  buttonDisabled:boolean = false;
 
   constructor(private location:LocationStrategy) { 
     history.pushState(null, "", window.location.href);
@@ -94,4 +139,37 @@ export class CustomSelectComponent implements OnInit {
       this.showError = true;
     }
   }
+
+  copyToValue(): void{
+    if (this.calculateWork) {
+      this.workTime.copy(this.curTime);
+    } else {
+      this.breakTime.copy(this.curTime);
+    }
+  }
+
+  switchValue(): void {
+    if (this.calculateWork) {
+      this.curTime.copy(this.breakTime);
+    } else {
+      this.curTime.copy(this.workTime);
+    }
+  }
+
+  swtichMode():void {
+    if (!this.buttonDisabled) {
+      this.buttonDisabled = true;
+      this.copyToValue();
+      this.switchValue();
+      this.calculateWork = !this.calculateWork;
+      console.log(this.calculateWork)
+      setTimeout(()=> {
+        this.toBreak = !this.toBreak;
+      }, 400)
+      setTimeout(()=> {
+        this.buttonDisabled = false;
+      }, 800)
+    }
+  }
 }
+

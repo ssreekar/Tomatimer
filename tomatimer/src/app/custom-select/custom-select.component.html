@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <div class="row text-center p-4" style="background-color: #eeeeeeff">
+    <div class="row text-center py-4" style="background-color: #eeeeeeff">
         <div class="col-md" style="height: 86px; display: inline">
             <img
                 class="text-center back-button"
@@ -9,102 +9,276 @@
             />
         </div>
         <div class="col-md">
-            <h2 class="display-1 text-center">Custom Time</h2>
+            <h2 class="display-2 text-center">Custom Time</h2>
         </div>
         <div class="col-sm"></div>
     </div>
-    <div class="row pb-5 pt-3" style="background-color: #393e46ff">
+    <div class="row" style="background-color: #222831ff">
+        <div class="col-md py-3">
+            <h3
+                class="display-4 text-center"
+                style="color: white; font-size: 45px"
+            >
+                {{
+                    calculateWork ? "Select Work Amount" : "Select Break Amount"
+                }}
+            </h3>
+        </div>
+    </div>
+    <div class="row" style="background-color: #393e46ff">
         <div class="col-md">
-            <h4 class="display-4 text-center pb-4" style="color: #eeeeeeff">
-                Work Time
+            <h4
+                class="display-4 text-center"
+                style="color: #eeeeeeff; font-size: 40px"
+            >
+                Hours
             </h4>
-            <div style="display: inline-block; text-align: center">
-                <input
-                    class="form-control input-field"
-                    (keypress)="numberOnly($event)"
-                    (input)="updateWorkMinutes($event)"
-                    style="display: inline"
-                    [ngClass]="{
-                        'custom-valid': workMinutesValid,
-                        'custom-invalid': !workMinutesValid
-                    }"
-                />
-                <h4
-                    class="display-1"
-                    style="
-                        display: inline;
-                        text-align: center;
-                        color: #eeeeeeff;
-                    "
-                >
-                    :
-                </h4>
-                <input
-                    class="form-control input-field"
-                    style="display: inline"
-                    (keypress)="numberOnly($event, true)"
-                    (input)="updateWorkSeconds($event)"
-                    [ngClass]="{
-                        'custom-valid': workSecondsValid,
-                        'custom-invalid': !workSecondsValid
-                    }"
-                />
+            <div class="selector-container">
+                <div class="number-selector">
+                    <img
+                        class="arrow-img"
+                        src="assets/upButton.png"
+                        (click)="
+                            curTime.hourOnesIndex = curTime.hourOnesIndex + 1
+                        "
+                        [ngStyle]="{
+                            'pointer-events':
+                                curTime.hourOnesIndex == 9 ? 'none' : 'auto',
+                            opacity: curTime.hourOnesIndex == 9 ? '0' : '1'
+                        }"
+                    />
+                    <div class="background-box">
+                        <img
+                            class="six-roller"
+                            src="assets/nineRoller.png"
+                            [ngStyle]="{
+                                transform:
+                                    'translateY(' +
+                                    nineRollerPos[curTime.hourOnesIndex] +
+                                    'px)'
+                            }"
+                        />
+                    </div>
+                    <img
+                        class="arrow-img"
+                        src="assets/downButton.png"
+                        (click)="
+                            curTime.hourOnesIndex = curTime.hourOnesIndex - 1
+                        "
+                        [ngStyle]="{
+                            'pointer-events':
+                                curTime.hourOnesIndex == 0 ? 'none' : 'auto',
+                            opacity: curTime.hourOnesIndex == 0 ? '0' : '1'
+                        }"
+                    />
+                </div>
             </div>
         </div>
         <div class="col-md">
-            <h4 class="display-4 text-center pb-4" style="color: #eeeeeeff">
-                Break Time
+            <h4
+                class="display-4 text-center"
+                style="color: #eeeeeeff; font-size: 40px"
+            >
+                Minutes
             </h4>
-            <div style="display: inline-block; text-align: center">
-                <input
-                    class="form-control input-field"
-                    (keypress)="numberOnly($event)"
-                    (input)="updateBreakMinutes($event)"
-                    style="display: inline"
-                    [ngClass]="{
-                        'custom-valid': breakMinutesValid,
-                        'custom-invalid': !breakMinutesValid
-                    }"
-                />
-                <h4
-                    class="display-1"
-                    style="
-                        display: inline;
-                        text-align: center;
-                        color: #eeeeeeff;
-                    "
-                >
-                    :
-                </h4>
-                <input
-                    class="form-control input-field"
-                    style="display: inline"
-                    (keypress)="numberOnly($event, true)"
-                    (input)="updateBreakSeconds($event)"
-                    [ngClass]="{
-                        'custom-valid': breakSecondsValid,
-                        'custom-invalid': !breakSecondsValid
-                    }"
-                />
+            <div class="selector-container">
+                <div class="number-selector">
+                    <img
+                        class="arrow-img"
+                        src="assets/upButton.png"
+                        (click)="
+                            curTime.minTensIndex = curTime.minTensIndex + 1
+                        "
+                        [ngStyle]="{
+                            'pointer-events':
+                                curTime.minTensIndex == 5 ? 'none' : 'auto',
+                            opacity: curTime.minTensIndex == 5 ? '0' : '1'
+                        }"
+                    />
+                    <div class="background-box">
+                        <img
+                            class="six-roller"
+                            src="assets/sixRoller.png"
+                            [ngStyle]="{
+                                transform:
+                                    'translateY(' +
+                                    sixRollerPos[curTime.minTensIndex] +
+                                    'px)'
+                            }"
+                        />
+                    </div>
+                    <img
+                        class="arrow-img"
+                        src="assets/downButton.png"
+                        (click)="
+                            curTime.minTensIndex = curTime.minTensIndex - 1
+                        "
+                        [ngStyle]="{
+                            'pointer-events':
+                                curTime.minTensIndex == 0 ? 'none' : 'auto',
+                            opacity: curTime.minTensIndex == 0 ? '0' : '1'
+                        }"
+                    />
+                </div>
+                <div class="number-selector">
+                    <img
+                        class="arrow-img"
+                        src="assets/upButton.png"
+                        (click)="
+                            curTime.minOnesIndex = curTime.minOnesIndex + 1
+                        "
+                        [ngStyle]="{
+                            'pointer-events':
+                                curTime.minOnesIndex == 9 ? 'none' : 'auto',
+                            opacity: curTime.minOnesIndex == 9 ? '0' : '1'
+                        }"
+                    />
+                    <div class="background-box">
+                        <img
+                            class="six-roller"
+                            src="assets/nineRoller.png"
+                            [ngStyle]="{
+                                transform:
+                                    'translateY(' +
+                                    nineRollerPos[curTime.minOnesIndex] +
+                                    'px)'
+                            }"
+                        />
+                    </div>
+                    <img
+                        class="arrow-img"
+                        src="assets/downButton.png"
+                        (click)="
+                            curTime.minOnesIndex = curTime.minOnesIndex - 1
+                        "
+                        [ngStyle]="{
+                            'pointer-events':
+                                curTime.minOnesIndex == 0 ? 'none' : 'auto',
+                            opacity: curTime.minOnesIndex == 0 ? '0' : '1'
+                        }"
+                    />
+                </div>
+            </div>
+        </div>
+        <div class="col-md">
+            <h4
+                class="display-4 text-center"
+                style="color: #eeeeeeff; font-size: 40px"
+            >
+                Seconds
+            </h4>
+            <div class="selector-container">
+                <div class="number-selector">
+                    <img
+                        class="arrow-img"
+                        src="assets/upButton.png"
+                        (click)="
+                            curTime.secTensIndex = curTime.secTensIndex + 1
+                        "
+                        [ngStyle]="{
+                            'pointer-events':
+                                curTime.secTensIndex == 5 ? 'none' : 'auto',
+                            opacity: curTime.secTensIndex == 5 ? '0' : '1'
+                        }"
+                    />
+                    <div class="background-box">
+                        <img
+                            class="six-roller"
+                            [ngStyle]="{
+                                transform:
+                                    'translateY(' +
+                                    sixRollerPos[curTime.secTensIndex] +
+                                    'px)'
+                            }"
+                            src="assets/sixRoller.png"
+                        />
+                    </div>
+                    <img
+                        class="arrow-img"
+                        src="assets/downButton.png"
+                        (click)="
+                            curTime.secTensIndex = curTime.secTensIndex - 1
+                        "
+                        [ngStyle]="{
+                            'pointer-events':
+                                curTime.secTensIndex == 0 ? 'none' : 'auto',
+                            opacity: curTime.secTensIndex == 0 ? '0' : '1'
+                        }"
+                    />
+                </div>
+                <div class="number-selector">
+                    <img
+                        class="arrow-img"
+                        src="assets/upButton.png"
+                        (click)="
+                            curTime.secOnesIndex = curTime.secOnesIndex + 1
+                        "
+                        [ngStyle]="{
+                            'pointer-events':
+                                curTime.secOnesIndex == 9 ? 'none' : 'auto',
+                            opacity: curTime.secOnesIndex == 9 ? '0' : '1'
+                        }"
+                    />
+                    <div class="background-box">
+                        <img
+                            class="six-roller"
+                            [ngStyle]="{
+                                transform:
+                                    'translateY(' +
+                                    nineRollerPos[curTime.secOnesIndex] +
+                                    'px)'
+                            }"
+                            src="assets/nineRoller.png"
+                        />
+                    </div>
+                    <img
+                        class="arrow-img"
+                        src="assets/downButton.png"
+                        (click)="
+                            curTime.secOnesIndex = curTime.secOnesIndex - 1
+                        "
+                        [ngStyle]="{
+                            'pointer-events':
+                                curTime.secOnesIndex == 0 ? 'none' : 'auto',
+                            opacity: curTime.secOnesIndex == 0 ? '0' : '1'
+                        }"
+                    />
+                </div>
             </div>
         </div>
     </div>
-    <div class="row py-5" style="background-color: #222831ff">
-        <div class="col-md"></div>
-        <div class="col-md">
+    <div class="row py-3" style="background-color: #222831ff">
+        <div class="col-md" style="text-align: center">
             <img
-                class="img-button submit-button"
+                class="img-button setTimeBtn bottomBtn"
+                [src]="
+                    toBreak
+                        ? 'assets/setBreakTime.png'
+                        : 'assets/setWorkTime.png'
+                "
+                (click)="swtichMode()"
+                [ngClass]="{
+                    workToBreak: !calculateWork,
+                    breakToWork: calculateWork
+                }"
+            />
+            <img
+                class="img-button submit-button bottomBtn"
                 (click)="onSubmit()"
                 src="assets/submit.png"
+                [ngClass]="{
+                    workToBreak: !calculateWork,
+                    breakToWork: calculateWork
+                }"
             />
-            <h4
-                class="display-4 text-center pt-2"
-                style="color: #eeeeeeff; font-family: Sora; font-size: 26px"
-                [ngStyle]="{ visibility: showError ? 'visible' : 'hidden' }"
-            >
-                Invalid Input
-            </h4>
+            <div class="pt-4">
+                <h4
+                    style="color: #d9534f; font-family: Sora"
+                    [ngStyle]="{ display: isError ? 'inline' : 'none' }"
+                >
+                    Must have non-zero work and break times
+                </h4>
+            </div>
         </div>
-        <div class="col-md"></div>
     </div>
 </div>

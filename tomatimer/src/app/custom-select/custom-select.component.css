@@ -10,6 +10,7 @@
 
 .submit-button {
     display: block;
+    height: 80px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -37,4 +38,84 @@
 
 .back-button:hover {
     transform: scale(1.1);
+}
+
+.selector-container {
+    text-align: center;
+}
+
+.number-selector {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    display: inline-block;
+    padding-left: 5px;
+    padding-right: 5px;
+    line-height: 5em;
+}
+
+.background-box {
+    height: 175px;
+    width: 175px;
+    background-color: #000022f0;
+    border-color: black;
+    border-width: 7px;
+    border-style: solid;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+}
+
+.arrow-img {
+    height: 35px;
+    transition: all 0.2s ease;
+}
+
+.arrow-img:hover {
+    transform: scale(1.1);
+}
+
+.six-roller {
+    width: 100px;
+    transform: translateY(20px);
+    transition: all 0.6s ease;
+}
+
+.setTimeBtn {
+    height: 80px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.bottomBtn {
+    display: inline-block;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.workToBreak {
+    animation: forwards-animation 0.8s;
+}
+
+.breakToWork {
+    animation: backwords-animation 0.8s;
+}
+
+@keyframes forwards-animation {
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes backwords-animation {
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
