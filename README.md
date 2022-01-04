@@ -18,13 +18,16 @@ This website is currently very much a work in progress and is currently on versi
 
 <i> Change Notes </i>
 <br> <br>
-<em> 1.2 </em>
-* Refactor Custom Page for increased clarity
-* Added hours to timer selection
-<em> 1.1:</em>
-* Audio Alerts when timer reaches zero
-* Added Icon
-* Added / overrided back button functionality for certain components
+1.2:
+
+- Refactor Custom Page for increased clarity
+- Added hours to timer selection
+
+1.1:
+
+- Audio Alerts when timer reaches zero
+- Added Icon
+- Added / overrided back button functionality for certain components
 
 <br>
 By: Sharujan Sreekaran
