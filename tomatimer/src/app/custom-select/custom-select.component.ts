@@ -46,15 +46,6 @@ class timeObj {
 export class CustomSelectComponent implements OnInit {
   @Output() timeSelectedMessage = new EventEmitter<number[]>();
   @Output() backEvent = new EventEmitter<boolean>();
-  acceptedCharCodes:number[] = [8, 26, 27, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57];
-  workSeconds: string = "";
-  workMinutes: string = "";
-  breakSeconds: string = "";
-  breakMinutes: string = "";
-  workMinutesValid: boolean = true;
-  workSecondsValid: boolean = true;
-  breakMinutesValid: boolean = true;
-  breakSecondsValid: boolean = true;
   sixRollerPos: number[] = [-1053, -862, -645, -422, -204, 22]
   nineRollerPos: number[] = [-1936, -1745, -1528, -1305, -1087, -863, -644, -423, -205, 20]
   curTime: timeObj = new timeObj();
@@ -77,46 +68,6 @@ export class CustomSelectComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  checkMinuteString(value: string):boolean {
-    if (value == "" || parseInt(value) >= 0) {
-      return true;  
-    }
-    return false;
-  }
-
-  checkSecondString(value: string): boolean {
-    if (value == "" || (parseInt(value) >= 0 && parseInt(value) <= 59)) {
-      return true;
-    }
-    return false;
-  }
-
-  updateWorkMinutes(event:any) {
-    this.workMinutes = event.target.value;
-    this.workMinutesValid = this.checkMinuteString(this.workMinutes);
-  }
-
-
-  updateWorkSeconds(event:any) {
-    this.workSeconds = event.target.value;
-    this.workSecondsValid = this.checkSecondString(this.workSeconds);
-  }
-
-  updateBreakMinutes(event:any){
-    this.breakMinutes = event.target.value;
-    this.breakMinutesValid = this.checkMinuteString(this.breakMinutes);
-  }
-
-  updateBreakSeconds(event:any){
-    this.breakSeconds = event.target.value;
-    this.breakSecondsValid = this.checkSecondString(this.breakSeconds);
-  }
-
-  numberOnly(event:any, seconds?:boolean):boolean {
-    const charCode = (event.which) ? event.which : event.keyCode;
-    const returnValue = this.acceptedCharCodes.includes(charCode);
-    return returnValue;
-  }
 
   onBack(): void {
     this.backEvent.emit(true);
