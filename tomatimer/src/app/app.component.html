@@ -11,7 +11,42 @@
 ></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sora" />
 
-<div style="background-color: #222831ff">
+<nav class="navbar nav nav-pills navbar-expand-lg navbar-dark bg-dark">
+    <div class="collapse navbar-collapse nav-pills px-3 py-1">
+        <a class="navbar-brand">Tomatimer</a>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item px-2">
+                <a class="nav-link">Login</a>
+            </li>
+            <li class="nav-item px-2">
+                <a
+                    class="nav-link"
+                    [ngClass]="{
+                        active: getCurPage() == 'timeSelect'
+                    }"
+                    (click)="loadTimeSelectPage()"
+                    >Select Timer</a
+                >
+            </li>
+            <li class="nav-item px-2">
+                <a
+                    class="nav-link"
+                    [ngClass]="{
+                        active: getCurPage() == 'backgroundPage'
+                    }"
+                    (click)="loadBackgroundPage()"
+                    >Background Info</a
+                >
+            </li>
+        </ul>
+        <ul class="navbar-nav ms-auto">
+            <li class="px-2">
+                <a class="nav-link" style="float: right">Account</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="col-md" style="background-color: #222831ff">
     <div #testDiv></div>
 </div>
 

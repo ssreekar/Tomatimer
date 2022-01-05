@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { TimerComponent } from './timer/timer.component';
 import { TimeSelectComponent } from './time-select/time-select.component';
 import { CustomSelectComponent } from './custom-select/custom-select.component';
+import { BackgroundInfoComponent } from './background-info/background-info.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { CustomSelectComponent } from './custom-select/custom-select.component';
     AppComponent,
     TimerComponent,
     TimeSelectComponent,
-    CustomSelectComponent
+    CustomSelectComponent,
+    BackgroundInfoComponent
   ],
   entryComponents: [
     TimeSelectComponent

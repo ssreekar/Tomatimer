@@ -54,7 +54,7 @@ export class TimerComponent implements OnInit {
 
   constructor(@Inject(LOCALE_ID) public locale: string, private location: LocationStrategy) {
     //Handling timer repeat functionality
-    const source = interval(1);
+    const source = interval(1000);
     this.subscription = source.subscribe(call => this.secPass());
     history.pushState(null, "", window.location.href);
     this.location.onPopState(() => {
@@ -196,5 +196,5 @@ export class TimerComponent implements OnInit {
     }
     this.setTimes();
   }
-
+  
 }

@@ -1,3 +1,4 @@
+import { BackgroundInfoComponent } from './background-info/background-info.component';
 import { TimerComponent } from './timer/timer.component';
 import { CustomSelectComponent } from './custom-select/custom-select.component';
 import { TimeSelectComponent } from './time-select/time-select.component';
@@ -33,24 +34,31 @@ export class AppComponent implements  AfterViewInit{
     this.loadTimeSelectPage();
   }
 
+  removeTop(): void {
+    if (this.container.length != 0) {
+      this.container.remove(0);
+    }
+  }
+
   loadTimeSelectPage(): void {
+    this.removeTop();
     console.log("Add Time Select")
     this.orderOfPages.push("timeSelect");
     let tempVal: ComponentRef<TimeSelectComponent>;
-    let componentVal: ComponentFactory<TimeSelectComponent>;
-    componentVal = this.resolver.resolveComponentFactory(TimeSelectComponent);
-    tempVal = this.container.createComponent(this.resolver.resolveComponentFactory(TimeSelectComponent));
+    let componentVal = this.resolver.resolveComponentFactory(TimeSelectComponent);
+    tempVal = this.container.createComponent(componentVal);
     tempVal.instance.timeSelectedMessage.subscribe(data => {
       this.timeSelectedParser(data);
     })
   }
 
   loadCustomPage():void {
+    this.removeTop();
     console.log("Add Custom Page")
     this.orderOfPages.push("customPage");
     let tempVal: ComponentRef<CustomSelectComponent>;
     let componentVal = this.resolver.resolveComponentFactory(CustomSelectComponent);
-    tempVal = this.container.createComponent(this.resolver.resolveComponentFactory(CustomSelectComponent));
+    tempVal = this.container.createComponent(componentVal);
     tempVal.instance.timeSelectedMessage.subscribe(data => {
       this.timeSelectedParser(data);
     });
@@ -62,11 +70,12 @@ export class AppComponent implements  AfterViewInit{
   }
 
   loadTimerPage(data: number[]) {
+    this.removeTop();
     console.log("Add Timer Page")
     this.orderOfPages.push("timerPage")
     let tempVal: ComponentRef<TimerComponent>;
     let componentVal = this.resolver.resolveComponentFactory(TimerComponent);
-    tempVal = this.container.createComponent(this.resolver.resolveComponentFactory(TimerComponent));
+    tempVal = this.container.createComponent(componentVal);
     let sendData: TimerInfo = {workHours: data[0], workMinutes: data[1], workSeconds: data[2], 
       breakHours: data[3], breakMinutes: data[4], breakSeconds: data[5]};
     tempVal.instance.obj = sendData;
@@ -77,12 +86,19 @@ export class AppComponent implements  AfterViewInit{
     });
   }
 
+  loadBackgroundPage() {
+    this.removeTop();
+    console.log("Add Background Page");
+    this.orderOfPages.push("backgroundPage");
+    let tempVal: ComponentRef<BackgroundInfoComponent>;
+    let componentVal = this.resolver.resolveComponentFactory(BackgroundInfoComponent);
+    tempVal = this.container.createComponent(componentVal);
+  }
+
   timeSelectedParser(data: number[]): void {
     if (data[0] == -1) {
-      this.container.remove(0);
       this.loadCustomPage();
     } else {
-      this.container.remove(0);
       this.loadTimerPage(data);
     }
   }
@@ -94,20 +110,23 @@ export class AppComponent implements  AfterViewInit{
     }
     let lastPage = this.orderOfPages[this.orderOfPages.length - 2];
     if (lastPage == "timeSelect") {
-      this.orderOfPages.pop()
-      this.orderOfPages.pop()
-      this.container.remove(0)
+      this.orderOfPages.pop();
+      this.orderOfPages.pop();
       this.loadTimeSelectPage();
-      console.log(this.orderOfPages.toString())
     } else if (lastPage == "customPage") {
-      this.orderOfPages.pop() 
-      this.orderOfPages.pop()
-      this.container.remove(0)
+      this.orderOfPages.pop(); 
+      this.orderOfPages.pop();
       this.loadCustomPage();
-      console.log(this.orderOfPages.toString())
+    } else if (lastPage == "backgroundPage") {
+      this.orderOfPages.pop(); 
+      this.orderOfPages.pop();
+      this.loadCustomPage();
     }
   }
 
-  
+  getCurPage(): string {
+    return this.orderOfPages[this.orderOfPages.length - 1]
+  }
+
   title:string = 'tomatimer';
 }
