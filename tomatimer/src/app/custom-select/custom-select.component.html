@@ -258,8 +258,8 @@
                 "
                 (click)="swtichMode()"
                 [ngClass]="{
-                    workToBreak: !calculateWork,
-                    breakToWork: calculateWork
+                    workToBreak: workToBreak,
+                    breakToWork: breakToWork
                 }"
             />
             <img
@@ -267,8 +267,8 @@
                 (click)="onSubmit()"
                 src="assets/submit.png"
                 [ngClass]="{
-                    workToBreak: !calculateWork,
-                    breakToWork: calculateWork
+                    workToBreak: workToBreak,
+                    breakToWork: breakToWork
                 }"
             />
         </div>

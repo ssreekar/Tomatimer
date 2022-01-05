@@ -56,6 +56,8 @@ export class CustomSelectComponent implements OnInit {
   isError:boolean = false;
   buttonDisabled:boolean = false;
   shakeError: boolean = false;
+  workToBreak: boolean = false;
+  breakToWork: boolean = false;
 
   constructor(private location:LocationStrategy) { 
     history.pushState(null, "", window.location.href);
@@ -105,12 +107,23 @@ export class CustomSelectComponent implements OnInit {
     }
   }
 
+  updateCalculateWork():void {
+    this.calculateWork = !this.calculateWork;
+    if (this.calculateWork) {
+      this.workToBreak = true;
+      this.breakToWork = false;
+    } else {
+      this.workToBreak = false;
+      this.breakToWork = true;
+    }
+  }
+
   swtichMode():void {
     if (!this.buttonDisabled) {
       this.buttonDisabled = true;
       this.copyToValue();
       this.switchValue();
-      this.calculateWork = !this.calculateWork;
+      this.updateCalculateWork();
       setTimeout(()=> {
         this.toBreak = !this.toBreak;
       }, 400)
