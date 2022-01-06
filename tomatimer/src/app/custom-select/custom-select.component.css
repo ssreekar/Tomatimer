@@ -77,7 +77,6 @@
 }
 
 .six-roller {
-    width: 100px;
     transform: translateY(20px);
     transition: all 0.6s ease;
 }
