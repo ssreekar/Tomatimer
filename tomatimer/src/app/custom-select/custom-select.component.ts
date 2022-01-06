@@ -46,8 +46,8 @@ class timeObj {
 export class CustomSelectComponent implements OnInit {
   @Output() timeSelectedMessage = new EventEmitter<number[]>();
   @Output() backEvent = new EventEmitter<boolean>();
-  sixRollerPos: number[] = [-1053, -862, -645, -422, -204, 22]
-  nineRollerPos: number[] = [-1936, -1745, -1528, -1305, -1087, -863, -644, -423, -205, 20]
+  sixRollerPos: number[] = [-1168, -932, -697, -457, -219, 15]
+  nineRollerPos: number[] = [-2116, -1880, -1645, -1405, -1167, -933, -698, -457, -222, 15]
   curTime: timeObj = new timeObj();
   workTime: timeObj = new timeObj();
   breakTime: timeObj = new timeObj();
