@@ -16,13 +16,15 @@
         <a class="navbar-brand">Tomatimer</a>
         <ul class="navbar-nav mr-auto">
             <li class="nav-item px-2">
-                <a class="nav-link">Login</a>
+                <a class="nav-link" (click)="login()">Login</a>
             </li>
             <li class="nav-item px-2">
                 <a
                     class="nav-link"
                     [ngClass]="{
-                        active: getCurPage() == 'timeSelect'
+                        active:
+                            getCurPage() == 'timeSelect' ||
+                            getCurPage() == 'empty'
                     }"
                     (click)="loadTimeSelectPage()"
                     >Select Timer</a

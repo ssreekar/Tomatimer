@@ -1,3 +1,7 @@
+
+import { firebaseAuthEnvironment } from '../../config'
+
 export const environment = {
-  production: true
+  production: true,
+  firebase: firebaseAuthEnvironment
 };

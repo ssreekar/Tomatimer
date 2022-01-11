@@ -2,7 +2,10 @@ import { BackgroundInfoComponent } from './background-info/background-info.compo
 import { TimerComponent } from './timer/timer.component';
 import { CustomSelectComponent } from './custom-select/custom-select.component';
 import { TimeSelectComponent } from './time-select/time-select.component';
-import { Component, AfterViewInit, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentFactory, ComponentRef} from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentRef} from '@angular/core';
+import { AngularFireAuth, USE_DEVICE_LANGUAGE } from '@angular/fire/compat/auth';
+import firebase from 'firebase/compat/app';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 
 export interface TimerInfo {
   workHours: number;
@@ -18,19 +21,24 @@ export interface TimerInfo {
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'], 
+  providers: [
+    // ... Existing Providers
+    { provide: USE_DEVICE_LANGUAGE, useValue: true },
+  ],
 })
 
 export class AppComponent implements  AfterViewInit{
   @ViewChild('testDiv', {read: ViewContainerRef}) container!: any;
-  orderOfPages: string[] = []
+  orderOfPages: string[] = [];
 
 
-  constructor(private resolver: ComponentFactoryResolver) {
-
+  constructor(private resolver: ComponentFactoryResolver, public auth: AngularFireAuth) {
+    this.orderOfPages = [];
   }
 
   ngAfterViewInit(): void {
+    this.orderOfPages = [];
     this.loadTimeSelectPage();
   }
 
@@ -125,7 +133,14 @@ export class AppComponent implements  AfterViewInit{
   }
 
   getCurPage(): string {
+    if (this.orderOfPages.length == 0) {
+      return 'empty';
+    }
     return this.orderOfPages[this.orderOfPages.length - 1]
+  }
+
+  login() {
+    this.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
   }
 
   title:string = 'tomatimer';
