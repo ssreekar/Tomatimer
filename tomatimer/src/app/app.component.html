@@ -16,7 +16,9 @@
         <a class="navbar-brand" (click)="loadTimeSelectPage()">Tomatimer</a>
         <ul class="navbar-nav mr-auto">
             <li class="nav-item px-2">
-                <a class="nav-link" (click)="login()">Login</a>
+                <a class="nav-link" (click)="loggedIn ? logout() : login()"
+                    >{{ loggedIn ? "Logout" : "Login" }}
+                </a>
             </li>
             <li class="nav-item px-2">
                 <a
@@ -49,9 +51,6 @@
             </li>
             <li class="px-2">
                 <a class="nav-link" style="float: right">Account Info</a>
-            </li>
-            <li class="nav-item px-2">
-                <a class="nav-link" (click)="logout()">Logout</a>
             </li>
         </ul>
     </div>

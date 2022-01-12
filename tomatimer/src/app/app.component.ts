@@ -30,7 +30,8 @@ export interface TimerInfo {
 export class AppComponent implements  AfterViewInit{
   @ViewChild('testDiv', {read: ViewContainerRef}) container!: any;
   orderOfPages: string[] = [];
-  loginName: string = "Guest"
+  loginName: string = "Guest";
+  loggedIn: boolean = false;
 
   constructor(private resolver: ComponentFactoryResolver, public auth: AngularFireAuth) {
     this.orderOfPages = [];
@@ -141,10 +142,15 @@ export class AppComponent implements  AfterViewInit{
   updateLoginName(): void {
     this.loginName = "Guest"
     this.auth.currentUser.then((result)=>{
-      if (result && result.displayName) {
-        this.loginName = result.displayName;
-      } else if (result && result.email) {
-        this.loginName = result.email;
+      if (result) {
+        this.loggedIn = true;
+        if (result.displayName) {
+          this.loginName = result.displayName;
+        } else if (result.email) {
+          this.loginName = result.email;
+        }
+      } else {
+        this.loggedIn = false;
       }
     });
   }
