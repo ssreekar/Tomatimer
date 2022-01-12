@@ -13,7 +13,7 @@
 
 <nav class="navbar nav nav-pills navbar-expand-lg navbar-dark bg-dark">
     <div class="collapse navbar-collapse nav-pills px-3 py-1">
-        <a class="navbar-brand">Tomatimer</a>
+        <a class="navbar-brand" (click)="loadTimeSelectPage()">Tomatimer</a>
         <ul class="navbar-nav mr-auto">
             <li class="nav-item px-2">
                 <a class="nav-link" (click)="login()">Login</a>
@@ -42,8 +42,16 @@
             </li>
         </ul>
         <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+                <a class="nav-link" style="color: #eeeeff; font-size: 1rem">
+                    Currently Logged in as: {{ loginName }}
+                </a>
+            </li>
             <li class="px-2">
-                <a class="nav-link" style="float: right">Account</a>
+                <a class="nav-link" style="float: right">Account Info</a>
+            </li>
+            <li class="nav-item px-2">
+                <a class="nav-link" (click)="logout()">Logout</a>
             </li>
         </ul>
     </div>

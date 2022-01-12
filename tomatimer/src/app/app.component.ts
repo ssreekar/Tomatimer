@@ -5,7 +5,6 @@ import { TimeSelectComponent } from './time-select/time-select.component';
 import { Component, AfterViewInit, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentRef} from '@angular/core';
 import { AngularFireAuth, USE_DEVICE_LANGUAGE } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
-import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 
 export interface TimerInfo {
   workHours: number;
@@ -31,7 +30,7 @@ export interface TimerInfo {
 export class AppComponent implements  AfterViewInit{
   @ViewChild('testDiv', {read: ViewContainerRef}) container!: any;
   orderOfPages: string[] = [];
-
+  loginName: string = "Guest"
 
   constructor(private resolver: ComponentFactoryResolver, public auth: AngularFireAuth) {
     this.orderOfPages = [];
@@ -139,8 +138,28 @@ export class AppComponent implements  AfterViewInit{
     return this.orderOfPages[this.orderOfPages.length - 1]
   }
 
-  login() {
-    this.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+  updateLoginName(): void {
+    this.loginName = "Guest"
+    this.auth.currentUser.then((result)=>{
+      if (result && result.displayName) {
+        this.loginName = result.displayName;
+      } else if (result && result.email) {
+        this.loginName = result.email;
+      }
+    });
+  }
+
+  logout(): void {
+    this.auth.signOut().then(() => {
+      this.updateLoginName();
+    })
+
+  }
+
+  login(): void {
+    this.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(()=>{
+      this.updateLoginName();
+    });
   }
 
   title:string = 'tomatimer';
