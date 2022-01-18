@@ -13,6 +13,8 @@ import { environment } from '../environments/environment';
 import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { provideDatabase,getDatabase } from '@angular/fire/database';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 @NgModule({
   declarations: [
@@ -33,6 +35,7 @@ import { provideDatabase,getDatabase } from '@angular/fire/database';
     MatPasswordStrengthModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideDatabase(() => getDatabase()),
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

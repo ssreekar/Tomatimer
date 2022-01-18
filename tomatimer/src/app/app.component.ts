@@ -5,6 +5,10 @@ import { TimeSelectComponent } from './time-select/time-select.component';
 import { Component, AfterViewInit, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentRef} from '@angular/core';
 import { AngularFireAuth, USE_DEVICE_LANGUAGE } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
+import { Observable } from 'rxjs';
+import { DatabaseServiceService } from './database-service.service';
+import * as bootstrap from 'bootstrap';
+
 
 export interface TimerInfo {
   workHours: number;
@@ -13,7 +17,6 @@ export interface TimerInfo {
   breakHours: number;
   breakMinutes: number;
   breakSeconds: number;
-
 };
 
 
@@ -33,7 +36,11 @@ export class AppComponent implements  AfterViewInit{
   loginName: string = "Guest";
   loggedIn: boolean = false;
 
-  constructor(private resolver: ComponentFactoryResolver, public auth: AngularFireAuth) {
+
+
+
+
+  constructor(private resolver: ComponentFactoryResolver, public auth: AngularFireAuth, private dbService: DatabaseServiceService) {
     this.orderOfPages = [];
   }
 
@@ -158,13 +165,16 @@ export class AppComponent implements  AfterViewInit{
   logout(): void {
     this.auth.signOut().then(() => {
       this.updateLoginName();
+      this.dbService.resetCurrentUUID();
     })
-
   }
 
   login(): void {
-    this.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(()=>{
+    this.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then((result)=>{
       this.updateLoginName();
+      if (result.user) {
+        this.dbService.setCurrentUUID(result.user.uid)
+      }
     });
   }
 

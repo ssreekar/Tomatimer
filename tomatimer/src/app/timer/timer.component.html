@@ -1,3 +1,34 @@
+<ng-template #modalData let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">
+            Timer is still on going!
+        </h4>
+    </div>
+    <div class="modal-body">
+        <p>
+            {{ leaveText }}
+        </p>
+
+        <p></p>
+    </div>
+    <div class="modal-footer">
+        <button
+            type="button"
+            class="btn btn-success"
+            (click)="modal.close('Back to Timer')"
+        >
+            Back to Timer
+        </button>
+        <button
+            type="button"
+            class="btn btn-danger"
+            (click)="modal.close('Continue')"
+        >
+            Continue Action
+        </button>
+    </div>
+</ng-template>
+
 <div class="container-fluid">
     <div class="row text-center py-4 test" style="background-color: #eeeeeeff">
         <div class="col-md" style="height: 86px; display: inline">
