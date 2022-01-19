@@ -14,6 +14,8 @@ import { MatPasswordStrengthModule } from '@angular-material-extensions/password
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { provideDatabase,getDatabase } from '@angular/fire/database';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ChartsModule } from 'ng2-charts';
+import { AccountSummaryComponent } from './account-summary/account-summary.component';
 
 
 @NgModule({
@@ -22,7 +24,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     TimerComponent,
     TimeSelectComponent,
     CustomSelectComponent,
-    BackgroundInfoComponent
+    BackgroundInfoComponent,
+    AccountSummaryComponent
   ],
   entryComponents: [
     TimeSelectComponent
@@ -35,7 +38,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MatPasswordStrengthModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideDatabase(() => getDatabase()),
-    NgbModule
+    NgbModule,
+    ChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

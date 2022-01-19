@@ -1,3 +1,4 @@
+import { AccountSummaryComponent } from './account-summary/account-summary.component';
 import { BackgroundInfoComponent } from './background-info/background-info.component';
 import { TimerComponent } from './timer/timer.component';
 import { CustomSelectComponent } from './custom-select/custom-select.component';
@@ -5,9 +6,7 @@ import { TimeSelectComponent } from './time-select/time-select.component';
 import { Component, AfterViewInit, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentRef} from '@angular/core';
 import { AngularFireAuth, USE_DEVICE_LANGUAGE } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
-import { Observable } from 'rxjs';
 import { DatabaseServiceService } from './database-service.service';
-import * as bootstrap from 'bootstrap';
 
 
 export interface TimerInfo {
@@ -35,10 +34,6 @@ export class AppComponent implements  AfterViewInit{
   orderOfPages: string[] = [];
   loginName: string = "Guest";
   loggedIn: boolean = false;
-
-
-
-
 
   constructor(private resolver: ComponentFactoryResolver, public auth: AngularFireAuth, private dbService: DatabaseServiceService) {
     this.orderOfPages = [];
@@ -107,6 +102,15 @@ export class AppComponent implements  AfterViewInit{
     this.orderOfPages.push("backgroundPage");
     let tempVal: ComponentRef<BackgroundInfoComponent>;
     let componentVal = this.resolver.resolveComponentFactory(BackgroundInfoComponent);
+    tempVal = this.container.createComponent(componentVal);
+  }
+
+  loadAccountPage() {
+    this.removeTop();
+    console.log("Add Background Page");
+    this.orderOfPages.push("accountPage");
+    let tempVal: ComponentRef<AccountSummaryComponent>;
+    let componentVal = this.resolver.resolveComponentFactory(AccountSummaryComponent);
     tempVal = this.container.createComponent(componentVal);
   }
 
