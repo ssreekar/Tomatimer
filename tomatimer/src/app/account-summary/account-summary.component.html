@@ -4,22 +4,29 @@
             <h2 class="display-2 text-center">Account Summary</h2>
         </div>
     </div>
-    <div *ngIf="false" class="row py-5" style="background-color: #393e46ff">
+    <div
+        *ngIf="!localUUID"
+        class="row py-5"
+        style="background-color: #393e46ff"
+    >
         <h2 class="display-3 text-center" style="color: #eeeeeeff">
             Please login to get your productivity tracked and displayed
         </h2>
     </div>
-    <div class="row py-5" style="background-color: #393e46ff">
-        <div class="col-md">
-            <h4 class="text-center p-4 display-4" style="color: #eeeeeeff">
-                Summary 1
+    <div *ngIf="localUUID" class="row py-5" style="background-color: #636c7a">
+        <div class="col-md" style="display: inline-block">
+            <h4
+                class="text-center display-4"
+                style="color: #eeeeeeff; font-size: 35px"
+            >
+                Work Break Balance
             </h4>
-            <div style="display: block">
+            <div class="p-4" style="display: block">
                 <canvas
                     baseChart
                     [datasets]="donutChartData"
                     [labels]="donutChartLabels"
-                    [options]="lineChartOptions"
+                    [options]="donutChartOptions"
                     [colors]="donutChartColors"
                     [legend]="lineChartLegend"
                     [chartType]="donutChartType"
@@ -29,10 +36,13 @@
             </div>
         </div>
         <div class="col-md">
-            <h4 class="text-center p-4 display-4" style="color: #eeeeeeff">
-                Summary 2
+            <h4
+                class="text-center display-4"
+                style="color: #eeeeeeff; font-size: 35px"
+            >
+                Productivity History
             </h4>
-            <div style="display: block">
+            <div class="p-4" style="display: block">
                 <canvas
                     baseChart
                     [datasets]="lineChartData"
