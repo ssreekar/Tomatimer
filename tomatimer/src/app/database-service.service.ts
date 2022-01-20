@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase, AngularFireObject } from '@angular/fire/compat/database';
+import { AngularFireDatabase, AngularFireList, AngularFireObject } from '@angular/fire/compat/database';
 import { BehaviorSubject, Observable } from 'rxjs';
 
+export class FullTimesheet {
+  startDate: string = "";
+  endDate: string = "";
+  work: boolean = true;;
+}
 
 export class Timesheet {
   startDate: Date;
@@ -62,7 +67,7 @@ export class DatabaseServiceService {
     }
   }
 
-  getDataObservable() {
+  getDataObservable(): AngularFireList<FullTimesheet> {
     return this.db.list('UserTimeInfo/' + this.currentUUID);
   }
 
