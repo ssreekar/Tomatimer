@@ -6,16 +6,22 @@ Tomatimer is a website intended to aid productivity via the pomodoro technique. 
 
 This website is currently very much a work in progress and is currently on version:
 
-<h2> 1.3 </h2>
+<h2> 2.0 </h2>
 
 <em>Future Features:</em>
 <br>
-* Login to save timer data 
-* Data analysis of induvidual login data
+* More data analysis of induvidual login data
 * Better Animations
 
 <i> Change Notes </i>
 <br> <br>
+
+2.0:
+
+- Added Login functionality using Firebase's authentication System
+- Added Firebase realtime Database usage to store logged user's productivity
+- Set up account summary page that displays users past week's productivity
+
 1.3:
 
 - Added navbar and background information page (set up for future login page)
