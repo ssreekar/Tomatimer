@@ -36,8 +36,8 @@ export class DatabaseServiceService {
   currentUUID: string = "";
 
   setCurrentUUID(UUID: string) {
-    this.UUIDSubject.next(UUID);
     this.currentUUID = UUID;
+    this.UUIDSubject.next(UUID);
   }
 
   resetCurrentUUID() {

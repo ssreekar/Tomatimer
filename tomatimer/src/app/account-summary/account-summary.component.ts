@@ -45,15 +45,14 @@ export class AccountSummaryComponent implements OnInit {
 
   updateChart() {
     let chartArray = this.charts.toArray();
-    if (chartArray[0].chart.data.datasets) {
+    if (chartArray[0] && chartArray[0].chart.data && chartArray[0].chart.data.datasets) {
       chartArray[0].chart.data.datasets[0].data = this.barData;
+      chartArray[0].chart.update();
     }
-    chartArray[0].chart.update();
-    if (chartArray[1].chart.data.datasets) {
+    if (chartArray[0] && chartArray[0].chart.data && chartArray[1].chart.data.datasets) {
       chartArray[1].chart.data.datasets[0].data = this.lineData;
+      chartArray[1].chart.update();
     }
-    chartArray[1].chart.update();
-    
   }
 
   //Data Parsing
@@ -109,11 +108,8 @@ export class AccountSummaryComponent implements OnInit {
         totalBreakTime += diffTime;
       }
     })
-    console.log(totalBreakTime);
-    console.log(totalWorkTime);
     this.barData = [totalBreakTime / (totalBreakTime + totalWorkTime), totalWorkTime / (totalBreakTime + totalWorkTime)];
     this.lineData = this.formatTo(resultArr, 1000 * 60);
-    console.log(this.lineData);
     this.updateChart();
   }
 
