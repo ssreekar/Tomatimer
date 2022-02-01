@@ -2,20 +2,26 @@
 
 https://tomatimer-1a435.web.app/
 
-Tomatimer is a website intended to aid productivity via the pomodoro technique. If helps you set up standard or custom work and break timers, that auto cycle helping you manage your work study balance.
+Tomatimer is a website intended to aid productivity via the pomodoro technique. It helps you set up customisable timers to better manage your work and break balance. It also keeps tracks and summerizes your productivity to help you get more done.
 
 This website is currently very much a work in progress and is currently on version:
 
-<h2> 1.3 </h2>
+<h2> 2.0 </h2>
 
 <em>Future Features:</em>
 <br>
-* Login to save timer data 
-* Data analysis of induvidual login data
+* More data analysis of induvidual login data
 * Better Animations
 
 <i> Change Notes </i>
 <br> <br>
+
+2.0:
+
+- Added Login functionality using Firebase's authentication System
+- Added Firebase realtime Database usage to store logged user's productivity
+- Set up account summary page that displays users past week's productivity
+
 1.3:
 
 - Added navbar and background information page (set up for future login page)
