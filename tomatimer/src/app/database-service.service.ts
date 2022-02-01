@@ -50,7 +50,7 @@ export class DatabaseServiceService {
   };
 
   setLatestTimeId(id: number) {
-    this.db.object('LatestTimeId/' + this.currentUUID).set({timeId: id});
+    this.db.object('LatestTimeId/' + this.currentUUID).update({timeId: id});
   }
 
   addTimerData(id: number, startTime: any, endTime: any, work: boolean, localUUID?: string) {

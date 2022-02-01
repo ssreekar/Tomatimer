@@ -61,7 +61,9 @@ export class TimerComponent implements OnInit, AfterViewInit {
   currentTimeIndex = 0;
   localUUID:string = "";
   closeModal: string = "";
-  leaveText: string = "Are you sure you wan't to leave rn bro";
+  leaveText: string = "Timer is still on going! Are you sure you want to leave?";
+  currentSubscription?: Subscription;
+  innerSubscription?:any ;
 
   constructor(@Inject(LOCALE_ID) public locale: string, private location: LocationStrategy, private dbService: DatabaseServiceService, private modalService: NgbModal) {
     //Handling timer repeat functionality
@@ -73,15 +75,17 @@ export class TimerComponent implements OnInit, AfterViewInit {
         this.onBack();
     });
 
-
-    dbService.sendUUID.subscribe((getUUID) => {
+    this.currentSubscription = dbService.sendUUID.subscribe((getUUID) => {
+      if (this.innerSubscription) {
+        this.innerSubscription.unsubscribe()
+      }
       if (this.localUUID && !getUUID) { //Logout Case 
         this.pushCurrentData(this.localUUID);
       }
       this.localUUID = getUUID;
       this.currentTimesheet = new Timesheet();
       this.timesheetObject = dbService.getCurrentTimesheetObservable();
-      this.timesheetObject.valueChanges().subscribe((result) => {
+      this.innerSubscription = this.timesheetObject.valueChanges().subscribe((result) => {
         if (!result && this.localUUID) {
           dbService.setLatestTimeId(0);
           this.currentTimeIndex = 0;
@@ -264,7 +268,6 @@ export class TimerComponent implements OnInit, AfterViewInit {
     if (this.curSecond != 0 || this.curMinute != 0 || this.curHour != 0) {
       if (this.localUUID) {
         this.currentTimesheet.updateEndDate(new Date());
-        console.log(new Date())
       }
     }
     if (this.curSecond == 0) {
