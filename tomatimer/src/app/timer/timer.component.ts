@@ -53,7 +53,6 @@ export class TimerComponent implements OnInit, AfterViewInit {
   disablePresses:boolean = false;
   moving: boolean = false;
   skipAlarm: boolean = true;
-  subscription: Subscription;
   audio: HTMLAudioElement = new Audio();
   looseCalls: number = 0;
   currentTimesheet: Timesheet = new Timesheet();
@@ -64,11 +63,13 @@ export class TimerComponent implements OnInit, AfterViewInit {
   leaveText: string = "Timer is still on going! Are you sure you want to leave?";
   currentSubscription?: Subscription;
   innerSubscription?:any ;
+  expectedTime: number;
+  timeout: any;
 
   constructor(@Inject(LOCALE_ID) public locale: string, private location: LocationStrategy, private dbService: DatabaseServiceService, private modalService: NgbModal) {
     //Handling timer repeat functionality
-    const source = interval(1000);
-    this.subscription = source.subscribe(call => this.secPass());
+    this.expectedTime = Date.now() + 1000;
+    setTimeout(() => {this.secPass()}, 1000);
     history.pushState(null, "", window.location.href);
     this.location.onPopState(() => {
         history.pushState(null, "", window.location.href);
@@ -152,7 +153,7 @@ export class TimerComponent implements OnInit, AfterViewInit {
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    clearTimeout(this.timeout);
   }
 
   //Press Start Button Functionality
@@ -262,41 +263,46 @@ export class TimerComponent implements OnInit, AfterViewInit {
   //Future Updates: Make it so timer is saved to milliseconds so if we press pause at the last second
   //when play is pressed it is updated accordingly. 
   secPass(): void {
-    if (!this.moving) {
-      return;
-    }
-    if (this.curSecond != 0 || this.curMinute != 0 || this.curHour != 0) {
-      if (this.localUUID) {
-        this.currentTimesheet.updateEndDate(new Date());
+    if (this.moving) {
+      if (this.curSecond != 0 || this.curMinute != 0 || this.curHour != 0) {
+        if (this.localUUID) {
+          this.currentTimesheet.updateEndDate(new Date());
+        }
       }
-    }
-    if (this.curSecond == 0) {
-      if (this.curMinute != 0) {
-        this.curMinute -= 1;
-        this.curSecond = 59;
-      } else {
-        if (this.curHour != 0) {
-          this.curHour = 0;
-          this.curMinute = 59;
+      if (this.curSecond == 0) {
+        if (this.curMinute != 0) {
+          this.curMinute -= 1;
           this.curSecond = 59;
+        } else {
+          if (this.curHour != 0) {
+            this.curHour = 0;
+            this.curMinute = 59;
+            this.curSecond = 59;
+          }
+        }
+      } else {
+        this.curSecond -= 1;
+        if (this.curSecond == 0 && this.curMinute == 0 && this.curHour == 0) {
+          if (this.skipAlarm) {
+            this.skipAlarm = false;
+            this.playAudio();
+            this.looseCalls++;
+            setTimeout(()=> {
+              if (!this.skipAlarm && this.looseCalls == 1) {
+                this.onSkipTo();
+              }
+              this.looseCalls--;
+            }, 6000)
+          }
         }
       }
-    } else {
-      this.curSecond -= 1;
-      if (this.curSecond == 0 && this.curMinute == 0 && this.curHour == 0) {
-        if (this.skipAlarm) {
-          this.skipAlarm = false;
-          this.playAudio();
-          this.looseCalls++;
-          setTimeout(()=> {
-            if (!this.skipAlarm && this.looseCalls == 1) {
-              this.onSkipTo();
-            }
-            this.looseCalls--;
-          }, 6000)
-        }
-      }
+      this.setTimes();
     }
-    this.setTimes();
+    var dt = Date.now() - this.expectedTime;
+    if (dt > 1000) {
+      console.log("Something went wrong with the timer, potentially lagged");
+    }
+    this.expectedTime += 1000;
+    setTimeout(() => {this.secPass();}, Math.max(0, 1000 - dt));
   }
 }
