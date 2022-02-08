@@ -6,6 +6,7 @@ import {trigger, state, style, animate, transition, keyframes} from '@angular/an
 import { DatabaseServiceService, Timesheet, latestId } from '.././database-service.service';
 import { AngularFireObject } from '@angular/fire/compat/database';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { TimerServiceService } from '../timer-service.service';
 
 
 @Component({
@@ -41,35 +42,30 @@ export class TimerComponent implements OnInit, AfterViewInit {
   @Input() obj: TimerInfo = {workHours: 0, workMinutes: 0, workSeconds: 0, breakHours: 0, breakMinutes: 0, breakSeconds: 0};
   @Output() backEvent = new EventEmitter<boolean>();
   @ViewChild('modalData') modalData!: ElementRef;
-  curSecond: number = 0;
-  curMinute: number = 0;
-  curHour: number = 0;
-  curStringSecond: string = "00";
-  curStringMinute: string = "00";
-  curStringHour: string = "0";
-  displayString: string =  "";
   isWork: boolean = true;
   switchState: boolean = true;
   disablePresses:boolean = false;
+  displayString: string = "";
   moving: boolean = false;
   skipAlarm: boolean = true;
   audio: HTMLAudioElement = new Audio();
   looseCalls: number = 0;
   currentTimesheet: Timesheet = new Timesheet();
-  timesheetObject?: AngularFireObject<latestId>; 
+  timesheetObject?: AngularFireObject<latestId>;
+  subscription: Subscription;
   currentTimeIndex = 0;
   localUUID:string = "";
   closeModal: string = "";
   leaveText: string = "Timer is still on going! Are you sure you want to leave?";
   currentSubscription?: Subscription;
   innerSubscription?:any ;
-  expectedTime: number;
   timeout: any;
+  finishChecked: boolean = false;
 
-  constructor(@Inject(LOCALE_ID) public locale: string, private location: LocationStrategy, private dbService: DatabaseServiceService, private modalService: NgbModal) {
+  constructor(@Inject(LOCALE_ID) public locale: string, private location: LocationStrategy, private dbService: DatabaseServiceService, private modalService: NgbModal, private timer: TimerServiceService) {
     //Handling timer repeat functionality
-    this.expectedTime = Date.now() + 1000;
-    setTimeout(() => {this.secPass()}, 1000);
+    const source = interval(200);
+    this.subscription = source.subscribe(call => this.updateDisplay());
     history.pushState(null, "", window.location.href);
     this.location.onPopState(() => {
         history.pushState(null, "", window.location.href);
@@ -85,15 +81,17 @@ export class TimerComponent implements OnInit, AfterViewInit {
       }
       this.localUUID = getUUID;
       this.currentTimesheet = new Timesheet();
-      this.timesheetObject = dbService.getCurrentTimesheetObservable();
-      this.innerSubscription = this.timesheetObject.valueChanges().subscribe((result) => {
-        if (!result && this.localUUID) {
-          dbService.setLatestTimeId(0);
-          this.currentTimeIndex = 0;
-        } else if (result){
-          this.currentTimeIndex = result.timeId;
-        }
-      })
+      if (this.localUUID) {
+        this.timesheetObject = dbService.getCurrentTimesheetObservable();
+        this.innerSubscription = this.timesheetObject.valueChanges().subscribe((result) => {
+          if (!result && this.localUUID) {
+            dbService.setLatestTimeId(0);
+            this.currentTimeIndex = 0;
+          } else if (result){
+            this.currentTimeIndex = result.timeId;
+          }
+        })
+      }
     })
 
   }
@@ -103,7 +101,7 @@ export class TimerComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.resetTimers();
+    this.timer.initializeTimer(this.obj);
     this.audio.src = "assets/audio/alarmSound.mp3";
   }
 
@@ -116,31 +114,7 @@ export class TimerComponent implements OnInit, AfterViewInit {
     this.audio.currentTime = 0;
   }
 
-  //Reset Timers to Default Work or Break values
-  resetTimers(): void {
-    if (this.isWork) {
-      this.curHour = this.obj.workHours;
-      this.curMinute = this.obj.workMinutes;
-      this.curSecond = this.obj.workSeconds;
-    } else {
-      this.curHour = this.obj.breakHours;
-      this.curMinute = this.obj.breakMinutes;
-      this.curSecond = this.obj.breakSeconds;
-    }
-    this.setTimes();
-  }
 
-  //Populate string values of second/minute values from default number values
-  setTimes(): void {
-    this.curStringSecond = formatNumber(this.curSecond, this.locale, '2.0');
-    this.curStringMinute = formatNumber(this.curMinute, this.locale, '2.0');
-    this.curStringHour = formatNumber(this.curHour, this.locale, '1.0');
-    if (this.curStringHour == "0") {
-      this.displayString = this.curStringMinute + " : " + this.curStringSecond;
-    } else {
-      this.displayString = this.curStringHour + " : " + this.curStringMinute + " : " + this.curStringSecond;
-    }
-  }
   
 @HostListener('window:beforeunload', ["$event"])
   onExit(e: Event) {
@@ -161,6 +135,7 @@ export class TimerComponent implements OnInit, AfterViewInit {
     if (!this.disablePresses) {
       if (!this.moving) {
         this.moving = true;
+        this.timer.play();
         this.currentTimesheet = new Timesheet();
       }
     }
@@ -172,13 +147,14 @@ export class TimerComponent implements OnInit, AfterViewInit {
       if (this.moving) {
         this.moving = false;
         this.pushCurrentData();
+        this.timer.pause();
       }
       this.skipAlarm = true;
       this.resetAudio();
       this.disablePresses = true;
       this.switchState = !this.switchState;
       setTimeout(() => {
-        this.resetTimers();
+        this.timer.reset();
       }, 500)
     }
   }
@@ -195,6 +171,7 @@ export class TimerComponent implements OnInit, AfterViewInit {
     if (!this.disablePresses) {
       if (this.moving) {
         this.moving = false;
+        this.timer.pause();
         this.pushCurrentData();
       }
     }
@@ -214,7 +191,7 @@ export class TimerComponent implements OnInit, AfterViewInit {
       this.switchState = !this.switchState;
       this.isWork = !this.isWork;
       setTimeout(() => {
-        this.resetTimers();
+        this.timer.skipTo();
       }, 500)
     }
   }
@@ -260,49 +237,19 @@ export class TimerComponent implements OnInit, AfterViewInit {
     }
   }
 
-  //Future Updates: Make it so timer is saved to milliseconds so if we press pause at the last second
-  //when play is pressed it is updated accordingly. 
-  secPass(): void {
-    if (this.moving) {
-      if (this.curSecond != 0 || this.curMinute != 0 || this.curHour != 0) {
-        if (this.localUUID) {
-          this.currentTimesheet.updateEndDate(new Date());
-        }
-      }
-      if (this.curSecond == 0) {
-        if (this.curMinute != 0) {
-          this.curMinute -= 1;
-          this.curSecond = 59;
-        } else {
-          if (this.curHour != 0) {
-            this.curHour = 0;
-            this.curMinute = 59;
-            this.curSecond = 59;
+  updateDisplay() {
+    this.displayString = this.timer.getDisplay();
+    if (this.timer.isFinished()) {
+      if (this.skipAlarm) {
+        this.skipAlarm = false;
+        console.log("playying")
+        this.playAudio();
+        setTimeout(()=> {
+          if (!this.skipAlarm) {
+            this.onSkipTo();
           }
-        }
-      } else {
-        this.curSecond -= 1;
-        if (this.curSecond == 0 && this.curMinute == 0 && this.curHour == 0) {
-          if (this.skipAlarm) {
-            this.skipAlarm = false;
-            this.playAudio();
-            this.looseCalls++;
-            setTimeout(()=> {
-              if (!this.skipAlarm && this.looseCalls == 1) {
-                this.onSkipTo();
-              }
-              this.looseCalls--;
-            }, 6000)
-          }
-        }
+        }, 6000)
       }
-      this.setTimes();
     }
-    var dt = Date.now() - this.expectedTime;
-    if (dt > 1000) {
-      console.log("Something went wrong with the timer, potentially lagged");
-    }
-    this.expectedTime += 1000;
-    setTimeout(() => {this.secPass();}, Math.max(0, 1000 - dt));
   }
 }
