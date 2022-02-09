@@ -15,6 +15,7 @@ export class TimerServiceService {
   isMoving: boolean = false;
   isWork: boolean = true;
   finished: boolean = false;
+  paused: boolean = false;
 
   constructor(@Inject(LOCALE_ID) public locale: string) { }
 
@@ -24,6 +25,8 @@ export class TimerServiceService {
     if (this.initTimer) {
       this.storedTime = 0;
       this.isMoving = false;
+      this.paused = false;
+      this.finished = false;
       this.setTimes();
     }
   }
@@ -39,17 +42,17 @@ export class TimerServiceService {
       let secondsPassed = Math.floor(milliPassed / 1000);
       let totalTime = Math.max(0, this.getStartSeconds() - secondsPassed);
       
-      if (totalTime == 0) {
+      if (totalTime == 0 && !this.paused) {
+        console.log("Finished Set")
         this.finished = true;
+        this.pause();
       }
-
       let curHour:number = Math.floor(totalTime / 3600);
       totalTime -= curHour * 3600;
       let curMinute: number = Math.floor(totalTime / 60);
       totalTime -= curMinute * 60;
       let curSecond: number = totalTime;
 
- 
       let curStringSecond = formatNumber(curSecond, this.locale, '2.0');
       let curStringMinute = formatNumber(curMinute, this.locale, '2.0');
       let curStringHour = formatNumber(curHour, this.locale, '1.0');
@@ -76,6 +79,7 @@ export class TimerServiceService {
 
   
   initializeTimer(startTimer:TimerInfo) {
+    console.log(startTimer);
     this.initTimer = startTimer;
     this.resetTimers();
   }
@@ -91,8 +95,14 @@ export class TimerServiceService {
   pause() {
     if (this.isMoving) {
       this.isMoving = false;
+      let milliPassed = this.storedTime;
       let curDate: Date = new Date();
-      this.storedTime += curDate.getTime() - this.lastStartTime; 
+      milliPassed += curDate.getTime() - this.lastStartTime;
+      let milliStart = this.getStartSeconds() * 1000;
+      this.storedTime += curDate.getTime() - this.lastStartTime;
+      if (milliStart < this.storedTime) {
+        this.storedTime = milliStart;
+      }
     }
   }
 
@@ -114,6 +124,15 @@ export class TimerServiceService {
 
   isFinished(): boolean {
     return this.finished;
+  }
+
+  donePause(){
+    this.paused = true;
+    this.finished = false;
+  }
+
+  donePlay() {
+    this.paused = false;
   }
 
 }

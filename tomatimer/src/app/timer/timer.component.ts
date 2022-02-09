@@ -77,7 +77,6 @@ export class TimerComponent implements OnInit, AfterViewInit {
         this.innerSubscription.unsubscribe()
       }
       if (this.localUUID && !getUUID) { //Logout Case 
-        this.pushCurrentData(this.localUUID);
       }
       this.localUUID = getUUID;
       this.currentTimesheet = new Timesheet();
@@ -146,6 +145,7 @@ export class TimerComponent implements OnInit, AfterViewInit {
     if (!this.disablePresses) {
       if (this.moving) {
         this.moving = false;
+        this.currentTimesheet.endDate = new Date();
         this.pushCurrentData();
         this.timer.pause();
       }
@@ -172,6 +172,7 @@ export class TimerComponent implements OnInit, AfterViewInit {
       if (this.moving) {
         this.moving = false;
         this.timer.pause();
+        this.currentTimesheet.endDate = new Date();
         this.pushCurrentData();
       }
     }
@@ -182,6 +183,7 @@ export class TimerComponent implements OnInit, AfterViewInit {
     if (!this.disablePresses) {
       if(this.moving) {
         this.moving = false;
+        this.currentTimesheet.endDate = new Date();
         this.pushCurrentData()
         
       }
@@ -192,6 +194,7 @@ export class TimerComponent implements OnInit, AfterViewInit {
       this.isWork = !this.isWork;
       setTimeout(() => {
         this.timer.skipTo();
+        this.timer.donePlay();
       }, 500)
     }
   }
@@ -241,8 +244,9 @@ export class TimerComponent implements OnInit, AfterViewInit {
     this.displayString = this.timer.getDisplay();
     if (this.timer.isFinished()) {
       if (this.skipAlarm) {
+        this.moving = false;
+        this.timer.donePause();
         this.skipAlarm = false;
-        console.log("playying")
         this.playAudio();
         setTimeout(()=> {
           if (!this.skipAlarm) {
