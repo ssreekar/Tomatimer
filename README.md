@@ -2,7 +2,7 @@
 
 https://tomatimer-1a435.web.app/
 
-Tomatimer is a website intended to aid productivity via the pomodoro technique. It helps you set up customisable timers to better manage your work and break balance. It also keeps tracks and summerizes your productivity to help you get more done.
+Tomatimer is a website intended to aid productivity via the Pomodoro technique. It helps you set up customisable timers to better manage your work and break balance. It also keeps tracks and summerizes your productivity to help you get more done.
 
 This website is currently very much a work in progress and is currently on version:
 
