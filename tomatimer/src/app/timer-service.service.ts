@@ -43,7 +43,6 @@ export class TimerServiceService {
       let totalTime = Math.max(0, this.getStartSeconds() - secondsPassed);
       
       if (totalTime == 0 && !this.paused) {
-        console.log("Finished Set")
         this.finished = true;
         this.pause();
       }
@@ -79,8 +78,8 @@ export class TimerServiceService {
 
   
   initializeTimer(startTimer:TimerInfo) {
-    console.log(startTimer);
     this.initTimer = startTimer;
+    this.isWork = true;
     this.resetTimers();
   }
 

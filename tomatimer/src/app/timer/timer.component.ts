@@ -185,7 +185,6 @@ export class TimerComponent implements OnInit, AfterViewInit {
         this.moving = false;
         this.currentTimesheet.endDate = new Date();
         this.pushCurrentData()
-        
       }
       this.skipAlarm = true;
       this.resetAudio();
@@ -221,8 +220,6 @@ export class TimerComponent implements OnInit, AfterViewInit {
       if (this.closeModal == 'Continue') {
         if (returnFunction == 'Back') {
           this.onBack();
-        } else if (returnFunction == 'Logout') {
-          
         }
       }
     }, (res) => {
@@ -244,6 +241,9 @@ export class TimerComponent implements OnInit, AfterViewInit {
     this.displayString = this.timer.getDisplay();
     if (this.timer.isFinished()) {
       if (this.skipAlarm) {
+        this.currentTimesheet.endDate = new Date();
+        this.pushCurrentData();
+        this.currentTimesheet = new Timesheet();
         this.moving = false;
         this.timer.donePause();
         this.skipAlarm = false;
