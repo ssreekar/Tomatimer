@@ -1,6 +1,6 @@
 <h1>Tomatimer</h1>
 
-https://tomatimer-1a435.web.app/
+https://tomatimer-1a435.firebaseapp.com/
 
 Tomatimer is a website intended to aid productivity via the Pomodoro technique. It helps you set up customisable timers to better manage your work and break balance. It also keeps tracks and summerizes your productivity to help you get more done.
 
